@@ -29,7 +29,6 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     return 0;
   }
 
-  //CreateWindowA( "EDIT", "", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 500, 300, NULL, NULL, hInstance, NULL);
   CreateWindow(WND_CLASS_NAME, "SummerPractice2026", WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 500, 300, NULL, NULL, hInstance, NULL);
 
@@ -39,7 +38,28 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     DispatchMessage(&msg);
   }
   return msg.wParam;
-}  
+}
+void DrawArrow( HWND hWnd, HDC hDC, INT xc, INT yc, INT L, INT W, DOUBLE angel_sec)
+{
+  POINT pnts[] =
+  {
+    {L, 0}, {-W, -W}, {0, 0}, {-W, W}
+  };
+  POINT pt;
+  POINT pnts_res[4];
+  int X, Y, i;
+  double len, cosa, sina;
+
+  cosa = cos(angel_sec);
+  sina = sin(angel_sec);
+
+  for (i = 0; i < 4; i++) 
+  {
+    pnts_res[i].x = xc + pnts[i].x * cosa + pnts[i].y * sina;
+    pnts_res[i].y = yc - pnts[i].y * cosa + pnts[i].x * sina;
+  }
+  Polygon(hDC, pnts_res, sizeof(pnts_res) / sizeof(pnts_res[0]));
+}
 
   LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
@@ -74,8 +94,10 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
   case WM_SIZE:
     W = LOWORD(lParam);
     H = HIWORD(lParam);
+
     if (hBm != NULL)
       DeleteObject(hBm);
+
     hDC = GetDC(hWnd);
     hBm = CreateCompatibleBitmap(hDC, W, H);
     ReleaseDC(hWnd, hDC);
@@ -106,8 +128,6 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     hFnt = CreateFont(0, 0, 0, 0, FW_HEAVY, FALSE, FALSE, FALSE, RUSSIAN_CHARSET, OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, ANTIALIASED_QUALITY, VARIABLE_PITCH | FF_SWISS, "");
     hOldFnt = SelectObject(hMemDC, hFnt);
  
-   
-    
     SetDCBrushColor(hMemDC, RGB(0, 0, 0));
     SelectObject(hMemDC, GetStockObject(DC_BRUSH));
     Rectangle(hMemDC, -8, -8, W + 8, H + 8);
@@ -115,47 +135,39 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     GetObject(hBmClock, sizeof(BITMAP), &bm);
     StretchBlt(hMemDC, 0, 0, W, H, hDCClock, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
     SelectObject(hDCClock, hBmClock);
-    //BitBlt(hMemDC, (W - bm.bmWidth) / 2, (H - bm.bmHeight) / 2, bm.bmWidth , bm.bmHeight, hDCClock, 0, 0, SRCCOPY);
     
     hPen = CreatePen(PS_SOLID, 8, RGB(255, 0, 0));
     hOldPen = SelectObject(hMemDC, hPen);
     GetLocalTime(&st);
+
     angel_sec = ((st.wSecond - 15) + (st.wMilliseconds / 1000.0)) * 3.14 / 30;
-
-    pt.x = (W / 2) + 200 * cos(angel_sec);
+    /*pt.x = (W / 2) + 200 * cos(angel_sec);
     pt.y = (H / 2) + 200 * sin(angel_sec);
-
     MoveToEx(hMemDC, W / 2, H / 2, NULL);
-    LineTo(hMemDC, pt.x , pt.y );
+    LineTo(hMemDC, pt.x , pt.y ); */
+    DrawArrow(hWnd, hMemDC, W / 2, H / 2, 400, -20, angel_sec);
+
 
     hPen = CreatePen(PS_SOLID, 10, RGB(0, 255, 0));
     hOldPen = SelectObject(hMemDC, hPen);
-
     angel_sec = ((st.wMinute - 15) + (st.wSecond - 15) / 60.0) * 3.14 / 30;
-
-    pt.x = (W / 2) + 100 * cos(angel_sec);
+    /*pt.x = (W / 2) + 100 * cos(angel_sec);
     pt.y = (H / 2) + 100 * sin(angel_sec);
-
     MoveToEx(hMemDC, W / 2, H / 2, NULL);
-    LineTo(hMemDC, pt.x , pt.y );
-
+    LineTo(hMemDC, pt.x , pt.y );*/
+    DrawArrow(hWnd, hMemDC, W / 2, H / 2, 300, -20, angel_sec);
 
     hPen = CreatePen(PS_SOLID, 12, RGB(180, 0, 255));
     hOldPen = SelectObject(hMemDC, hPen);
-
     angel_sec = ((st.wHour - 3) + (st.wMinute - 15) / 60.0) * 3.14 / 6;
-
-    pt.x = (W / 2) + 50 * cos(angel_sec);
+    /*pt.x = (W / 2) + 50 * cos(angel_sec);
     pt.y = (H / 2) + 50 * sin(angel_sec);
-
     MoveToEx(hMemDC, W / 2, H / 2, NULL);
-    LineTo(hMemDC, pt.x , pt.y );
-
-
-    
+    LineTo(hMemDC, pt.x , pt.y );*/
+    DrawArrow(hWnd, hMemDC, W / 2, H / 2, 100, -20, angel_sec);
 
     SetBkColor(hMemDC, RGB(220, 220, 180));
-    SetTextColor(hMemDC, RGB(255, 0, 0));
+    SetTextColor(hMemDC, RGB(255, 0, 255));
     GetLocalTime(&st);
     TextOut(hMemDC, W / 12, H / 12, Buf, sprintf(Buf, ">>> %d x %d ::время: %i: %i: %i <<<", W, H, st.wHour, st.wMinute, st.wSecond));
     DeleteObject(hFnt);

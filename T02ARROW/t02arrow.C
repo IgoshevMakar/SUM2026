@@ -42,7 +42,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
 {
   WNDCLASS wc;
   MSG msg;
-
+  HWND hwnd;
   wc.style = CS_HREDRAW | CS_VREDRAW;
   wc.cbClsExtra = 0;
   wc.cbWndExtra = 0;
@@ -60,14 +60,14 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     return 0;
   }
 
-  CreateWindowA( "EDIT", "", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 500, 300, NULL, NULL, hInstance, NULL);
-  CreateWindow(WND_CLASS_NAME, "SummerPractice2026", WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW | WS_VISIBLE,
+  //CreateWindowA( "EDIT", "", WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, 500, 300, NULL, NULL, hInstance, NULL);
+  hwnd = CreateWindow(WND_CLASS_NAME, "SummerPractice2026", WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 500, 300, NULL, NULL, hInstance, NULL);
 
   CreateWindow("BUTTON1", "Static", WS_CHILD | WS_VISIBLE,
-    10, 10, 100, 30, hWnd, (HMENU)123, hInstance, NULL);
+    10, 10, 100, 30, hwnd, (HMENU)123, hInstance, NULL);
   CreateWindow("BUTTON2", "Random", WS_CHILD | WS_VISIBLE,
-    10, 47, 100, 30, hWnd, (HMENU)124, hInstance, NULL);
+    10, 47, 100, 30, hwnd, (HMENU)124, hInstance, NULL);
 
 
   while(GetMessage(&msg, NULL, 0, 0))
@@ -96,8 +96,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     break;
   case WM_DESTROY:
     PostQuitMessage(0);
-    return 0;
-  case  
+    return 0;  
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
 
