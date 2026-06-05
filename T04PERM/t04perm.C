@@ -42,7 +42,7 @@ int GO( INT Pos )
       Swap(&P[Pos], &P[i]);
       IsParty = !IsParty;
       GO(Pos + 1);
-      //Swap(&P[Pos], &P[i]);
+      Swap(&P[Pos], &P[i]);
     }
     IsParty = !IsParty;
   }

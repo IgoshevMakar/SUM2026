@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="T05DET"
-	ProjectGUID="{12D3B5AC-6799-4C46-B3A0-83B8774736F9}"
-	RootNamespace="T05DET"
+	Name="T06DETG"
+	ProjectGUID="{779EF735-7A86-4515-807E-5B03FAA9D545}"
+	RootNamespace="T06DETG"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -179,7 +179,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\t05det.C"
+				RelativePath=".\t06detg.C"
 				>
 			</File>
 		</Filter>
