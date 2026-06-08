@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "T05DET", "T05DET.vcproj", "{12D3B5AC-6799-4C46-B3A0-83B8774736F9}"
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "T05DET", "C:\Z\T05DET\T05DET.vcproj", "{4A37C160-7173-4118-A36D-211285D92DE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +9,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{12D3B5AC-6799-4C46-B3A0-83B8774736F9}.Debug|Win32.ActiveCfg = Debug|Win32
-		{12D3B5AC-6799-4C46-B3A0-83B8774736F9}.Debug|Win32.Build.0 = Debug|Win32
-		{12D3B5AC-6799-4C46-B3A0-83B8774736F9}.Release|Win32.ActiveCfg = Release|Win32
-		{12D3B5AC-6799-4C46-B3A0-83B8774736F9}.Release|Win32.Build.0 = Release|Win32
+		{4A37C160-7173-4118-A36D-211285D92DE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A37C160-7173-4118-A36D-211285D92DE1}.Debug|Win32.Build.0 = Debug|Win32
+		{4A37C160-7173-4118-A36D-211285D92DE1}.Release|Win32.ActiveCfg = Release|Win32
+		{4A37C160-7173-4118-A36D-211285D92DE1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
