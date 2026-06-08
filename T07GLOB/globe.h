@@ -2,10 +2,10 @@
 #include <windows.h>
 
 #ifndef __globe_h_
-#define __globe_h_ 
+#define __globe_h_
 
-#define GLB_GRID_W 31
-#define GLB_GRID_H 18
+#define GLB_GRID_W 4
+#define GLB_GRID_H 6
 
 typedef DOUBLE DBL;
 
@@ -20,4 +20,4 @@ VOID GLB_Init( DBL R );
 
 static VEC GLB_GeomN[GLB_GRID_H][GLB_GRID_W];
 
-#endif
+#endif /* __globe_h_ */

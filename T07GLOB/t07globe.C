@@ -29,9 +29,9 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
     MessageBox(NULL, "Error", "ERROR", MB_ICONERROR);
     return 0;
   }
-   /* create window */ 
-   CreateWindowA(WND_CLASS_NAME, "text", WS_CLIPCHILDREN|WS_OVERLAPPEDWINDOW|WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL); 
-   /* main program loop  */
+  /* create window */ 
+  CreateWindowA(WND_CLASS_NAME, "text", WS_CLIPCHILDREN|WS_OVERLAPPEDWINDOW|WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInstance, NULL); 
+  /* main program loop  */
   while (GetMessage(&msg, NULL, 0, 0))
   {
     TranslateMessage(&msg);
@@ -49,7 +49,7 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   HDC hDC;
   static INT W, H, StartTime, Framecount;
   //static DBL t;
-                                  
+
   switch (Msg)
   {
   case WM_CREATE:
@@ -58,10 +58,10 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     SetTimer(hWnd, 30, 1, NULL);
     hDC = GetDC(hWnd);
     hMemDC = CreateCompatibleDC(hDC);
-    ReleaseDC(hWnd, hDC); 
+    ReleaseDC(hWnd, hDC);
     hBm = NULL;
     
-    GLB_Init(1);
+    GLB_Init(0.3);
     return 0;
   case WM_ERASEBKGND:
     return 1;
@@ -92,15 +92,14 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
 
     Rectangle(hMemDC, 0, 0, W, H);
     GLB_Draw(hMemDC);
-    GLB_Init(0.3);
     hDC = GetDC(hWnd);
     BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
-    ReleaseDC(hWnd, hDC);                  
+    ReleaseDC(hWnd, hDC);
     return 0;
 
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
-    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);  
+    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
     EndPaint(hWnd, &ps);
     return 0;
 

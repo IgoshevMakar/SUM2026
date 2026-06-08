@@ -13,15 +13,15 @@ static DBL GLB_ProjSize = 1, GLB_Wp, GLB_Hp, GLB_ProjDist = 1;
 VEC RotateZ( VEC P, DBL Angle );
 VEC RotateX( VEC P, DBL Angle );
 VEC RotateY( VEC P, DBL Angle );
-VOID GLB_Init ( DBL R );
+VOID GLB_Init( DBL R );
 
 COLORREF ColorTo255( VEC Color )
 {
   INT R = (INT)(Color.X * 255), G = (INT)(Color.Y * 255), B = (INT)(Color.Z * 255);
 
-  R = 255;
-  G = 0;
-  B = 255;
+  R = GLB_MIN(255, (GLB_MAX(0, R)));
+  G = GLB_MIN(255, (GLB_MAX(0, G)));
+  B = GLB_MIN(255, (GLB_MAX(0, B)));
   return RGB(R, G, B);
 }
 
@@ -38,11 +38,16 @@ VOID GLB_Draw( HDC hDC )
     for (j = 0; j < GLB_GRID_W; j++)
     {
       P = GLB_Geom[i][j];
-      P.Z -= 1;
+      P.Z -= 1; // почему 
       xp = P.X * GLB_ProjDist / (-P.Z);
       yp = P.Y * GLB_ProjDist / (-P.Z);
       pnts[i][j].x = (INT)(xp * GLB_Ws / GLB_Wp + GLB_Ws / 2); 
-      pnts[i][j].y = (INT)(-yp * GLB_Hs / GLB_Hp + GLB_Hs / 2); 
+      pnts[i][j].y = (INT)(-yp * GLB_Hs / GLB_Hp + GLB_Hs / 2); // попросить вывод повторить
+
+      t = clock() / (DBL)CLOCKS_PER_SEC;
+      GLB_Geom[i][j] = RotateZ(GLB_Geom[i][j], sin(t));
+      GLB_Geom[i][j] = RotateX(GLB_Geom[i][j], 0.5 * sin(t * 30));
+      GLB_Geom[i][j] = RotateY(GLB_Geom[i][j], 0); // уточнить должно ли это быть здесь
     }
 
   SetDCPenColor(hDC, RGB(0, 255, 0));
@@ -72,7 +77,7 @@ VOID GLB_Draw( HDC hDC )
   L.Y /= len;
   L.Z /= len;
 
-  for (i = 0; i < GLB_GRID_H - 1; i++)
+  for (i = 0; i < GLB_GRID_H - 2; i++) //почему это работает
   {
     for (j = 0; j < GLB_GRID_W - 1; j++)
     {
@@ -80,10 +85,10 @@ VOID GLB_Draw( HDC hDC )
       DBL nl;
       VEC C = {0.47, 0.8, 0.30};
       t = clock() / (DBL)CLOCKS_PER_SEC;
-      N = RotateZ( N, 10 * t);
-      N = RotateX( N, 20 * t);
-      N = RotateY( N, 10 * t);
-      nl = N.X * L.X + N.Y * L.Y + N.Z * L.Z;
+      N = RotateZ(N, 1 * t);
+      N = RotateX(N, 2 * t);
+      N = RotateY(N, 1 * t);
+      nl = N.X * L.X + N.Y * L.Y + N.Z * L.Z; //хз странно поч скалярное
       C.X *= nl;
       C.Y *= nl;
       C.Z *= nl;
@@ -100,7 +105,11 @@ VOID GLB_Draw( HDC hDC )
       
       SetDCBrushColor(hDC, ColorTo255(C));
       SelectObject(hDC, GetStockObject(DC_BRUSH));
-      Polygon(hDC, pts, 4);
+      if ((pts[0].x - pts[1].x) * (pts[0].y + pts[1].y) + 
+          (pts[1].x - pts[2].x) * (pts[1].y + pts[2].y) + 
+          (pts[2].x - pts[3].x) * (pts[2].y + pts[3].y) + 
+          (pts[3].x - pts[0].x) * (pts[3].y + pts[0].y) > 0) 
+        Polygon(hDC, pts, 4);
   
       SetDCBrushColor(hDC, RGB(0, 0, 0));
       SelectObject(hDC, GetStockObject(DC_BRUSH));
@@ -185,18 +194,20 @@ VEC RotateY( VEC P, DBL Angle )
   return NewP;
 } /* End of 'RotateY' function */
 
-VOID GLB_Init ( DBL R )
+/* Init R returns Non, build globe geometry */
+VOID GLB_Init( DBL R )
 {
-  DBL t;
   INT i, j;
 
-  for (i = 0; i < GLB_GRID_H; i++)  
+  for (i = 0; i < GLB_GRID_H; i++)
   {
     DBL theta = i * pi / (GLB_GRID_H - 1);
     for (j = 0; j < GLB_GRID_W; j++)
     {
-      DBL phi = j * 2 * pi / (GLB_GRID_W - 1);
-      t = clock() / (DBL)CLOCKS_PER_SEC;
+      DBL phi = 2 * j * pi / (GLB_GRID_W - 1);
+
+      //t = clock() / (DBL)CLOCKS_PER_SEC;
+
       GLB_GeomN[i][j].X = sin(theta) * sin(phi);
       GLB_GeomN[i][j].Y = cos(theta);
       GLB_GeomN[i][j].Z = sin(theta) * cos(phi);
@@ -204,10 +215,6 @@ VOID GLB_Init ( DBL R )
       GLB_Geom[i][j].X = R * sin(theta) * sin(phi);
       GLB_Geom[i][j].Y = R * cos(theta);
       GLB_Geom[i][j].Z = R * sin(theta) * cos(phi);
-      
-      GLB_Geom[i][j] = RotateZ( GLB_Geom[i][j], 10 * t);
-      GLB_Geom[i][j] = RotateX( GLB_Geom[i][j], 20 * t);
-      GLB_Geom[i][j] = RotateY( GLB_Geom[i][j], 10 * t);
     }
   }
 }
