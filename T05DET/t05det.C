@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <wndows.h>
-
+#include <windows.h>
+#include <conio.h>
 
 typedef DOUBLE DBL;
 
 #define MAX 3
 DBL A[MAX][MAX];
 INT N;
-
 INT P[MAX];
 BOOL IsParity;
+DBL Det;
 
+/*Open File and read*/
 BOOL LoadMatrix( CHAR *FileName )
 {
   FILE *F;
@@ -29,54 +30,88 @@ BOOL LoadMatrix( CHAR *FileName )
       N = MAX;
   for (i = 0; i < N; i++)
     for (j = 0; j < N; j++)
-      fcanf(F, "%lf", &A[i][j]);
+      fscanf(F, "%lf", &A[i][j]);
 
   fclose(F);
   return TRUE;
-}
-void Swap(int *i, int *j)
-{
-  int time_p;
+} /*END function LoadMatrix*/
 
-  time_p = *j;
+/*Swap 2 elements*/
+VOID Swap( INT *i, INT *j )
+{
+  INT temp;
+
+  temp = *j;
   *j = *i;
-  *i = time_p;
-}
-VOID Store(VOID)
-{
-  int i;
-  FILE *F;
-  F = fopen("Prem.txt", "a");
-  if (F == NULL)
-    return;
-  for (i = 0; i < MAX; i++)
-    fprintf(F, " %d, ", P[i]);
-  fprintf(F, "%d - parity: %s\n", P[MAX - 1], IsParty ? "even" : "odd");
-  fclose(F);
-}
+  *i = temp;
+} /*END function*/
 
-int GO( INT Pos )
+/* printf all of permutation */
+VOID GO( INT Pos )
 {
-  int i;
-  if (Pos == MAX)
+  INT i;
+  DBL prod;
+
+  if (Pos == N)
   {
-    Store();
+    for (prod = 1, i = 0; i < N; i++)
+      prod *= A[i][P[i]];
+    Det += prod * (IsParity ? 1 : -1);
     return;
   }
   else
   {
-    for (i = Pos; i < MAX; i++)
+    for (i = Pos; i < N; i++)
     {
-      Swap(&P[Pos], &P[i]);
-      IsParty = !IsParty;
+      if (i != Pos)
+      {
+        Swap(&P[Pos], &P[i]);
+        IsParity = !IsParity;
+      }
       GO(Pos + 1);
-      Swap(&P[Pos], &P[i]);
+      if (i != Pos)
+      {
+        Swap(&P[Pos], &P[i]);
+        IsParity = !IsParity;
+      }
     }
-    IsParty = !IsParty;
   }
-}
+}/* END function GO */
 
-void main( void )
+/* count Determinate of Matrix */
+DBL Determinate( VOID )
 {
+  INT i;
 
+  for (i = 0; i < MAX; i++)
+    P[i] = i;
+
+  IsParity = TRUE;
+  Det = 0;
+  GO(0);
+  return Det;
+} /* END function Determinate */
+
+VOID main( VOID )
+{
+  INT i;
+  FILE *F;
+
+  if (!LoadMatrix( "IN.txt"))
+  {
+    printf("ERROR");
+    return 1;
+    _getch();
+  }
+  F = fopen("IN.txt", "a");
+  if (F == NULL)
+  {
+    printf("FAIL FAIL");
+    return 1;
+  }
+  for (i = 0; i < MAX; i++)
+    P[i] = i;
+
+  fprintf(F, "       %lf", Determinate());
+  fclose(F);
 }
