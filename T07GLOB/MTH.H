@@ -1,4 +1,4 @@
-/* FILE NAME: mth.h
+ /* FILE NAME: mth.h
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
  * DATE: 08.06.2026
@@ -59,16 +59,22 @@ VEC VecSubVec( VEC V1, VEC V2 );  V1 – V2
 VEC VecMulNum( VEC V1, DBL N );   V1 * N
 VEC VecDivNum( VEC V1, DBL N );   V1 / N
  
-VEC VecNeg( VEC V )               -V
+VEC VecNeg( VEC V )
  {
   return VecSet(-V.X, -V.Y, -V.Z);
 }
  
 /* скалярное произведение векторов */
-DBL VecDotVec( VEC V1, VEC V2 );
+DBL VecDotVec( VEC V1, VEC V2 )
+{
+  return V1.X * V2.X + V1.Y * V2.Y + V1.Z * V2.Z;
+}
  
 /* векторное произведение векторов */
-VEC VecCrossVec( VEC V1, VEC V2 );
+VEC VecCrossVec( VEC V1, VEC V2 )
+{
+  return VecSet(V1.Y * V2.Z - V1.Z * V2.Y, V1.X * V2.Z - V1.Z * V2.X, V1.X * V2.Y - V1.X * V2.Y);
+}
  
 DBL VecLen2( VEC V );  |V|2
  
@@ -88,6 +94,13 @@ VEC VecNormalize( VEC V )   V/|V|
   if (len == 1 || len == 0)
     return V;
   return VecDivNum(V, sqrt(len));
+}
+
+__inline VEC PointTransform( VEC V, MATR M)
+{
+  return VecSet(V.X * M.A[0][0] + V.Y * M.A[1][0] + V.Z * M.A[2][0],
+         V.X * M.A[0][1] + V.Y * M.A[1][1] + V.Z * M.A[2][1],
+         V.X * M.A[0][2] + V.Y * M.A[1][2] + V.Z * M.A[2][2]);
 }
 
 MATR MatrIdentity( VOID )
@@ -148,11 +161,56 @@ MATR MatrTranslate( VEC T )
                  T.X, T.Y, T.Z, 1);
 }
  
-MATR MatrScale( VEC S );
-MATR MatrRotateX( DBL AngleInDegree );
-MATR MatrRotateY( DBL AngleInDegree );
-MATR MatrRotateZ( DBL AngleInDegree );
-MATR MatrRotate( DBL AngleInDegree, VEC V );
+MATR MatrScale( VEC S )
+{
+  MatrSet( S.X,0, 0, 0,
+              0, S.Y, 0, 0,
+              0, 0, S.Z, 0,
+              0, 0, 0, 1 )
+}
+MATR MatrRotateX( DBL AngleInDegree )
+{
+  MatrSet( 1,0, 0, 0,
+    0, cos(AngleInDegree), sin(AngleInDegree), 0,    
+    0, sin(AngleInDegree), cos(AngleInDegree), 0,
+   0, 0, 0, 1 );
+
+}
+MATR MatrRotateY( DBL AngleInDegree 
+{
+  MatrSet( 1,0, 0, 0,
+    0, cos(AngleInDegree), sin(AngleInDegree), 0,
+    0, -sin(AngleInDegree), cos(AngleInDegree), 0,
+    0, 0, 0, 1 );
+}
+MATR MatrRotateZ( DBL AngleInDegree )
+{
+  MatrSet( 1,0, 0, 0,
+    0, cos(AngleInDegree), sin(AngleInDegree), 0,
+    0, -sin(AngleInDegree), cos(AngleInDegree), 0,
+    0, 0, 0, 1 );
+}
+
+MATR MatrTranspose( MATR M );
+
+MATR MatrRotate( DBL AngleInDegree, VEC V ) 
+{
+  DBL c, s;
+
+  V = VecMormalize(V);
+  c = cos(AngleInDegree);
+  s = sin(AngleInDegree);
+  ax = V.X;
+  ay = V.Y;
+  az = V.Z;
+
+  return (MatrSet(c + ax * ax * (1 - c), ax * ay * (1 - c), ax * az * (1 - c) - ay * s,
+    ay * ax * (1 - c) - az * s, c + ay * ay * (1 - c), ay * az * (1 - c) + ax * s,
+    az * ax * (1 - c) + ay * s, az * ay * (1 - c) - ax * s, c + ax * ax * (1 - c));
+
+
+
+}
  
 MATR MatrMulMatr( MATR M1, MATR M2 )
 {
@@ -165,7 +223,13 @@ MATR MatrMulMatr( MATR M1, MATR M2 )
   return r;
 }
  
-MATR MatrTranspose( MATR M );
+MATR MatrTranspose( MATR M )
+{
+  return MatrSet(M.A[0][0], M.A[1][0], M.A[2][0], M.A[3][0], 
+                 M.A[0][1], M.A[1][1], M.A[2][1], M.A[3][1], 
+                 M.A[0][2], M.A[1][2], M.A[2][2], M.A[3][2],
+                 M.A[0][3], M.A[1][3], M.A[2][3], M.A[3][3], );
+}
  
  
 DBL MatrDeterm3x3( DBL A11, DBL A12, DBL A13,

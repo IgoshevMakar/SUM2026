@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <math.h>
+#include <time.h>
 #include "globe.h"
 
 #define WND_CLASS_NAME "something"
@@ -46,11 +47,14 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   static BITMAP bm;
   PAINTSTRUCT ps;
   HDC hDC;
-  static INT W, H;
+  static INT W, H, StartTime, Framecount;
+  //static DBL t;
                                   
   switch (Msg)
   {
   case WM_CREATE:
+    //t = clock();
+    //FrameCount = 0;
     SetTimer(hWnd, 30, 1, NULL);
     hDC = GetDC(hWnd);
     hMemDC = CreateCompatibleDC(hDC);
@@ -76,8 +80,16 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     SendMessage(hWnd, WM_TIMER, 0, 0);  
 
     return 0;
-  case WM_TIMER:   
-      /*draw*/
+  case WM_TIMER:
+   /* FrameCount++;
+    t = clock();
+    if (t - StartTime > CLOCKS_PER_SED)
+    {
+      FPS = FrameCount / t;
+
+    }
+    */
+
     Rectangle(hMemDC, 0, 0, W, H);
     GLB_Draw(hMemDC);
     GLB_Init(0.3);
@@ -85,11 +97,13 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
     ReleaseDC(hWnd, hDC);                  
     return 0;
+
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
     BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);  
     EndPaint(hWnd, &ps);
     return 0;
+
   case WM_DESTROY:
     if (hBm != NULL)
       DeleteObject(hBm);

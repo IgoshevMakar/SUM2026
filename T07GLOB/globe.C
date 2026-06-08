@@ -10,7 +10,6 @@ static VEC GLB_Geom[GLB_GRID_H][GLB_GRID_W];
 static INT GLB_Ws, GLB_Hs;
 static DBL GLB_ProjSize = 1, GLB_Wp, GLB_Hp, GLB_ProjDist = 1;
 
-/* color conver func */
 VEC RotateZ( VEC P, DBL Angle );
 VEC RotateX( VEC P, DBL Angle );
 VEC RotateY( VEC P, DBL Angle );
@@ -20,9 +19,9 @@ COLORREF ColorTo255( VEC Color )
 {
   INT R = (INT)(Color.X * 255), G = (INT)(Color.Y * 255), B = (INT)(Color.Z * 255);
 
-  R = GLB_MIN(255, (GLB_MAX(0, R)));
-  G = GLB_MIN(255, (GLB_MAX(0, G)));
-  B = GLB_MIN(255, (GLB_MAX(0, B)));
+  R = 255;
+  G = 0;
+  B = 255;
   return RGB(R, G, B);
 }
 
@@ -45,9 +44,8 @@ VOID GLB_Draw( HDC hDC )
       pnts[i][j].x = (INT)(xp * GLB_Ws / GLB_Wp + GLB_Ws / 2); 
       pnts[i][j].y = (INT)(-yp * GLB_Hs / GLB_Hp + GLB_Hs / 2); 
     }
-  
-    /* paraleles and meridianes */
-  SetDCPenColor(hDC, RGB(255, 255, 255));
+
+  SetDCPenColor(hDC, RGB(0, 255, 0));
   SelectObject(hDC, GetStockObject(DC_PEN));
   for (i = 0; i < GLB_GRID_H; i++)
   {
