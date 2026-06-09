@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <math.h>
 #include <time.h>
-#include "globe.h"
+#include "def.h"
 
 #define WND_CLASS_NAME "something"
 
@@ -11,6 +11,9 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, CHAR *CmdLine,
 {
   WNDCLASS wc;
   MSG msg;
+  HWND hWnd;
+
+  SetDbgMemHooks();
 
     /* window class register */
   wc.style = CS_HREDRAW | CS_VREDRAW;
@@ -53,60 +56,29 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   switch (Msg)
   {
   case WM_CREATE:
-    //t = clock();
-    //FrameCount = 0;
+    MI6_RndInit();
     SetTimer(hWnd, 30, 1, NULL);
     hDC = GetDC(hWnd);
-    hMemDC = CreateCompatibleDC(hDC);
     ReleaseDC(hWnd, hDC);
-    hBm = NULL;
-    
-    GLB_Init(0.3);
     return 0;
+
   case WM_ERASEBKGND:
     return 1;
+
   case WM_SIZE:
-    W = LOWORD(lParam);
-    H = HIWORD(lParam);
-    GLB_Resize(W, H);
-    
-    if (hBm != NULL)
-      DeleteObject(hBm);
-    hDC = GetDC(hWnd);
-    hBm = CreateCompatibleBitmap(hDC, W, H);
-    ReleaseDC(hWnd, hDC);
-    SelectObject(hMemDC, hBm);
-    
-    SendMessage(hWnd, WM_TIMER, 0, 0);  
-
+    SendMessage(hWnd, WM_TIMER, 0, 0);
     return 0;
+
   case WM_TIMER:
-   /* FrameCount++;
-    t = clock();
-    if (t - StartTime > CLOCKS_PER_SED)
-    {
-      FPS = FrameCount / t;
-
-    }
-    */
-
-    Rectangle(hMemDC, 0, 0, W, H);
-    GLB_Draw(hMemDC);
-    hDC = GetDC(hWnd);
-    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
-    ReleaseDC(hWnd, hDC);
     return 0;
 
   case WM_PAINT:
     hDC = BeginPaint(hWnd, &ps);
-    BitBlt(hDC, 0, 0, W, H, hMemDC, 0, 0, SRCCOPY);
     EndPaint(hWnd, &ps);
     return 0;
 
   case WM_DESTROY:
-    if (hBm != NULL)
-      DeleteObject(hBm);
-    DeleteDC(hMemDC);
+    MI6_RndClose();
     KillTimer(hWnd, 30);
     PostMessage(NULL, WM_QUIT, 0, 0);
     return 0;

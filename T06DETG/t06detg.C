@@ -115,7 +115,7 @@ void main( void )
   LoadMatrix("IN.txt");
 
   printf("%lf", Detg());
-  Debugg();
+  //Debugg();
   _getch();
 } /* End of 'main' function */
 

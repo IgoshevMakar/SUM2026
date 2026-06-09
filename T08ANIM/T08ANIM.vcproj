@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="T07GLOB"
-	ProjectGUID="{65A31233-BD4B-4082-886E-C60F20F70340}"
-	RootNamespace="T07GLOB"
+	Name="T08ANIM"
+	ProjectGUID="{5B29C0A3-0B55-4AE3-BBE5-2A951FC13973}"
+	RootNamespace="T08ANIM"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="out\$(ConfigurationName)"
+			IntermediateDirectory="out\$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			CharacterSet="2"
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;$(OPENAL_DIR)Include;"
+				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;.\src;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CRT_SECURE_NO_WARNINGS;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -93,8 +93,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="out\$(ConfigurationName)"
+			IntermediateDirectory="out\$(ConfigurationName)"
 			ConfigurationType="1"
 			UseOfMFC="0"
 			CharacterSet="2"
@@ -119,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;$(OPENAL_DIR)Include;"
+				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;.\src;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CRT_SECURE_NO_WARNINGS;_WINDOWS"
 				RuntimeLibrary="1"
 				EnableFunctionLevelLinking="true"
@@ -179,29 +179,49 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\globe.C"
+				RelativePath=".\src\def.h"
 				>
 			</File>
-			<File
-				RelativePath=".\globe.h"
+			<Filter
+				Name="Math Support"
 				>
-			</File>
-			<File
-				RelativePath=".\MTH.H"
+				<File
+					RelativePath=".\src\mth\mth.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Animation System"
 				>
-			</File>
-			<File
-				RelativePath=".\t07globe.C"
+				<Filter
+					Name="Rendering System"
+					>
+					<File
+						RelativePath=".\src\anim\Rnd\rnd.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rndbase.c"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rnddata.c"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rndprim.c"
+						>
+					</File>
+				</Filter>
+			</Filter>
+			<Filter
+				Name="Windows Depended"
 				>
-			</File>
-			<File
-				RelativePath=".\Timer.C"
-				>
-			</File>
-			<File
-				RelativePath=".\Timer.h"
-				>
-			</File>
+				<File
+					RelativePath=".\src\win\main.C"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
