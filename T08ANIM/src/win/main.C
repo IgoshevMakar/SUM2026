@@ -1,3 +1,8 @@
+/* FILE NAME: main.C
+ * PURPOSE: 3D math implementation module.
+ * PROGRAMMER: MI6
+ * DATE: 10.06.2026
+ */
 #include <windows.h>
 #include <math.h>
 #include <time.h>

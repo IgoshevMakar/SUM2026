@@ -1,3 +1,8 @@
+/* FILE NAME: rndbase.C
+ * PURPOSE: 3D math implementation module.
+ * PROGRAMMER: MI6
+ * DATE: 10.06.2026
+ */
 #include <windows.h>
 #include "def.h"
 
@@ -26,11 +31,10 @@ VOID MI6_RndResize( INT W, INT H )
  
   SelectObject(MI6_hRndDCFrame, MI6_hRndBmFrame);
  
-  /* сохран€ем размеры */
   MI6_RndFrameW = W;
   MI6_RndFrameH = H;
  
-  /* пересчитываем проекцию */
+ 
   MI6_RndProjSet();
 }
  
