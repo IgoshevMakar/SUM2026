@@ -92,22 +92,23 @@ DBL Determinate( VOID )
   return Det;
 } /* END function Determinate */
 
+
 VOID main( VOID )
 {
   INT i;
   FILE *F;
 
-  if (!LoadMatrix( "IN.txt"))
+  if (!LoadMatrix("IN.txt"))
   {
-    printf("ERROR");
-    return 1;
+    printf("DERMOOOO");
+    return;
     _getch();
   }
   F = fopen("IN.txt", "a");
   if (F == NULL)
   {
     printf("FAIL FAIL");
-    return 1;
+    return;
   }
   for (i = 0; i < MAX; i++)
     P[i] = i;
