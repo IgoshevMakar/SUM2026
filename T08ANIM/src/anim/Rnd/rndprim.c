@@ -1,11 +1,11 @@
 /* FILE NAME: rndprim.C
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
-<<<<<<< HEAD
  * DATE: 09.06.2026
  */
 
 #include "rnd.h"
+#include <stdio.h>
 
 VOID MI6_RndPrimFree( MI6PRIM *Pr )
 {
@@ -58,7 +58,7 @@ VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World )
   }
   free(pnts);
 }
-BOOL MI6_RndPrimCreateSphere( MI6PRIM *Pr, DBL R, INT W, INT H )
+/* BOOL MI6_RndPrimCreateBublik( MI6PRIM *Pr, DBL R1, DBL R2, INT W, INT H )
 {
   INT i, j, k;
   DBL theta, phi;
@@ -67,28 +67,124 @@ BOOL MI6_RndPrimCreateSphere( MI6PRIM *Pr, DBL R, INT W, INT H )
     return FALSE;
  
   /* Fill vertex array */
-  for (k = 0, i = 0, theta = 0; i < H; i++, theta += PI / (H - 1))
+  /* for (k = 0, i = 0, theta = 0; i < H; i++, theta += PI / (H - 1))
     for (j = 0, phi = 0; j < W; j++, phi += 2 * PI / (W - 1))
-      Pr->V[k++].P = VecSet(R * sin(theta) * sin(phi),
-                            R * cos(theta),
-                            R * sin(theta) * cos(phi));
+      Pr->V[k++].P = VecSet(R1 + R2 * sin(theta) * cos(theta),
+                            R2 + cos(theta) * sin(theta) * cos(phi),
+                            R1 + sin(phi) * cos(phi) * sin(theta));
  
   /* Fill vertex array */
-  for (k = 0, i = 0; i < H - 1; i++)
+  /*for (k = 0, i = 0; i < H - 1; i++)
     for (j = 0; j < W - 1; j++)
     {
       /* bottom-left */
-      Pr->I[k++] = i * W + j;
+    /*   Pr->I[k++] = i * W + j;
       Pr->I[k++] = i * W + j + 1;
       Pr->I[k++] = (i + 1) * W + j;
       /* top-right */
-      Pr->I[k++] = (i + 1) * W + j;
+      /*Pr->I[k++] = (i + 1) * W + j;
       Pr->I[k++] = i * W + j + 1;
       Pr->I[k++] = (i + 1) * W + j + 1;
     }
   return TRUE;
 } /* End of 'MI6_RndPrimCreateSphere' function */
-=======
- * DATE: 10.06.2026
+ /* Primitive free function.
+ * ARGUMENTS:
+ *   - primitive to be load:
+ *       MI6PRIM *Pr;
+ *   - primitve filename (.OBJ):
+ *       CHAR *FileName;
+ * RETURNS:
+ *   (BOOL) TRUE if success, FLASE otherwise.
  */
->>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc
+BOOL MI6_RndPrimLoad( MI6PRIM *Pr, CHAR *FileName )
+{
+  FILE *F;
+  INT nv = 0, nf = 0;
+  static CHAR Buf[3000];
+ 
+  memset(Pr, 0, sizeof(MI6PRIM));
+ 
+  if ((F = fopen(FileName, "r")) == NULL)
+    return FALSE;
+
+  /* Count vertices and indices */
+  while (fgets(Buf, sizeof(Buf) - 1, F) != NULL)
+  {
+    if (Buf[0] == 'v' && Buf[1] == ' ')
+      nv++;
+    else if (Buf[0] == 'f' && Buf[1] == ' ')
+    {
+      INT n = 0;
+      CHAR *ptr = Buf + 2, oldc = ' ';
+ 
+      while (*ptr != 0)
+      {
+        if (*ptr != ' ' && oldc == ' ')
+          n++;
+        oldc = *ptr++;
+      }
+ 
+      nf += n - 2;
+    }
+  }
+ 
+  if (!MI6_RndPrimCreate(Pr, nv, nf * 3))
+  {
+    fclose(F);
+    return FALSE;
+  }
+ 
+  /* Load model */
+  rewind(F);
+  nv = 0;
+  nf = 0;
+  while (fgets(Buf, sizeof(Buf) - 1, F) != NULL)
+  {
+    if (Buf[0] == 'v' && Buf[1] == ' ')
+    {
+      DBL x, y, z;
+ 
+      sscanf(Buf + 2, "%lf%lf%lf", &x, &y, &z);
+      Pr->V[nv++].P = VecSet(x / 50, y / 50, z / 50);
+    }
+    else if (Buf[0] == 'f' && Buf[1] == ' ')
+    {
+      INT n, n1, n2, n3;
+      INT fvn = 0;
+      CHAR *ptr = Buf + 2, oldc = ' ';
+ 
+      while (*ptr != 0)
+      {
+        if (*ptr != ' ' && oldc == ' ')
+        {
+          sscanf(ptr, "%d", &n);
+          if (n > 0)
+            n--;
+          else
+            if (n < 0)
+              n = nv + n;
+ 
+          if (fvn == 0)
+            n1 = n;
+          else if (fvn == 1)
+            n2 = n;
+          else
+          {
+            n3 = n;
+ 
+            Pr->I[nf++] = n1;
+            Pr->I[nf++] = n2;
+            Pr->I[nf++] = n3;
+ 
+            n2 = n3;
+          }
+          fvn++;
+        }
+        oldc = *ptr++;
+      }
+    }
+  }
+  fclose(F);
+  return TRUE;
+} /* End of 'MI6_RndPrimLoad' function */

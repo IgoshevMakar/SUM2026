@@ -185,28 +185,72 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath="Z:\T08ANIM\def.h"
+				RelativePath=".\src\def.h"
 				>
 			</File>
 			<Filter
 				Name="Math Support"
 				>
 				<File
-					RelativePath="Z:\T08ANIM\src\mth\mth.h"
+					RelativePath=".\src\mth\mth.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Unit Samples"
+				>
+				<File
+					RelativePath=".\src\units\units.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Windows Depended"
+				>
+				<File
+					RelativePath=".\src\win\main.C"
 					>
 				</File>
 			</Filter>
 			<Filter
 				Name="Animation System"
 				>
-			</Filter>
-			<Filter
-				Name="Windows Depended"
-				>
 				<File
-					RelativePath="Z:\T08ANIM\src\win\main.C"
+					RelativePath=".\src\anim\anim.C"
 					>
 				</File>
+				<File
+					RelativePath=".\src\anim\anim.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\anim\timer.C"
+					>
+				</File>
+				<File
+					RelativePath=".\src\anim\unit.C"
+					>
+				</File>
+				<Filter
+					Name="Rendering System"
+					>
+					<File
+						RelativePath=".\src\anim\Rnd\rnd.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rndbase.c"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rnddata.c"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rndprim.c"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 	</Files>

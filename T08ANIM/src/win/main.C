@@ -1,11 +1,8 @@
 /* FILE NAME: main.C
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
-<<<<<<< HEAD
  * DATE: 09.06.2026
-=======
  * DATE: 10.06.2026
->>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc
  */
 #include <windows.h>
 #include <time.h>
@@ -106,27 +103,23 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
 
   case WM_CREATE:
     MI6_RndInit(hWnd);
-    if (MI6_RndPrimCreate(&Pr, 4, 6))
-    {
-      MI6_RndPrimCreateSphere( &Pr1, 3, 30, 30 );
-    }
+    MI6_RndPrimLoad(&Pr1, "bin/models/btr.obj");
 
     SetTimer(hWnd, 3, 8, NULL);
 
-    
     return 0;
 
   case WM_TIMER:
     MI6_RndStart();
     MI6_RndEnd();
     hDC = GetDC(hWnd);
-    MI6_RndPrimDraw(&Pr1, MatrTranslate(VecSet(0, fabs(sin(3 * clock() / 1000.0)), 0)));
+    MI6_RndPrimDraw(&Pr1, MatrRotateY(30 * clock() / 1000.0));
     MI6_RndCopyFrame(hDC);
     ReleaseDC(hWnd, hDC);
     return 0;
 
   case WM_DESTROY:
-    MI6_RndPrimFree(&Pr);
+    MI6_RndPrimFree(&Pr1);
     MI6_RndClose();
     KillTimer(hWnd, 30);
     PostMessage(NULL, WM_QUIT, 0, 0);

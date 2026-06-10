@@ -1,7 +1,6 @@
 /* FILE NAME: rnd.h
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
-<<<<<<< HEAD
  * DATE: 09.06.2026
  */
 #include "def.h"
@@ -41,7 +40,7 @@ typedef struct tagMI6PRIM
 BOOL MI6_RndPrimCreate( MI6PRIM *Pr, INT NoofV, INT NoofI );
 VOID MI6_RndPrimFree( MI6PRIM *Pr );
 VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World );
-BOOL MI6_RndPrimCreateSphere( MI6PRIM *Pr, DBL R, INT W, INT H );
+//BOOL MI6_RndPrimCreateBublik( MI6PRIM *Pr, DBL R1, DBL R2, INT W, INT H );
 BOOL MI6_RndPrimLoad( MI6PRIM *Pr, CHAR *FileName );
 
 VOID MI6_RndInit( HWND hWnd );
@@ -52,13 +51,11 @@ VOID MI6_RndStart( VOID );
 VOID MI6_RndEnd( VOID );
 VOID MI6_RndProjSet( VOID );
 VOID MI6_RndCamSet( VEC Loc, VEC At, VEC Up );
-=======
- * DATE: 10.06.2026
- */
+
 #ifndef __rnd_h_
 #define __rnd_h_
 
 #include "def.h"
 
 #endif /* __rnd_h_ */
->>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc
+
