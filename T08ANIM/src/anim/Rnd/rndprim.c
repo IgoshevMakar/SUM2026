@@ -1,6 +1,7 @@
 /* FILE NAME: rndprim.C
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
+<<<<<<< HEAD
  * DATE: 09.06.2026
  */
 
@@ -87,3 +88,7 @@ BOOL MI6_RndPrimCreateSphere( MI6PRIM *Pr, DBL R, INT W, INT H )
     }
   return TRUE;
 } /* End of 'MI6_RndPrimCreateSphere' function */
+=======
+ * DATE: 10.06.2026
+ */
+>>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc

@@ -1,8 +1,18 @@
+<<<<<<< HEAD
 /* FILE NAME: rnddata.C
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
  * DATE: 09.06.2026
  */
+=======
+﻿﻿/* FILE NAME: rnddata.C
+ * PURPOSE: 3D math implementation module.
+ * PROGRAMMER: MI6
+ * DATE: 10.06.2026
+ */
+#include <windows.h>
+#include "def.h"
+>>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc
 
 #include "rnd.h"
 HWND MI6_hRndWnd;        /* Work window handle */

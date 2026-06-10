@@ -1,7 +1,11 @@
 /* FILE NAME: main.C
  * PURPOSE: 3D math implementation module.
  * PROGRAMMER: MI6
+<<<<<<< HEAD
  * DATE: 09.06.2026
+=======
+ * DATE: 10.06.2026
+>>>>>>> 96e2e086243044462879a9bd4d5d515a3f93cdcc
  */
 #include <windows.h>
 #include <time.h>

@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="T08ANIM"
-	ProjectGUID="{81C08B49-A09E-42DC-897A-4CC6C1C5E59D}"
-	RootNamespace="T08ANIM"
+	Name="T07GLOBE"
+	ProjectGUID="{181E0EE3-AB4A-4366-868A-A324B93314C2}"
+	RootNamespace="T07GLOBE"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,8 +18,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="bin\$(ConfigurationName)"
-			IntermediateDirectory="out\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="2"
 			>
@@ -41,7 +41,6 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;.\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -90,8 +89,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="bin\$(ConfigurationName)"
-			IntermediateDirectory="out\$(ConfigurationName)"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
@@ -115,7 +114,6 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;.\src"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -185,29 +183,29 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 			<File
-				RelativePath="Z:\T08ANIM\def.h"
+				RelativePath=".\globe.C"
 				>
 			</File>
-			<Filter
-				Name="Math Support"
+			<File
+				RelativePath=".\globe.h"
 				>
-				<File
-					RelativePath="Z:\T08ANIM\src\mth\mth.h"
-					>
-				</File>
-			</Filter>
-			<Filter
-				Name="Animation System"
+			</File>
+			<File
+				RelativePath=".\mth.h"
 				>
-			</Filter>
-			<Filter
-				Name="Windows Depended"
+			</File>
+			<File
+				RelativePath=".\t07globe.C"
 				>
-				<File
-					RelativePath="Z:\T08ANIM\src\win\main.C"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath=".\Timer.C"
+				>
+			</File>
+			<File
+				RelativePath=".\Timer.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
