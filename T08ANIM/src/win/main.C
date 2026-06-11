@@ -4,13 +4,11 @@
  * DATE: 09.06.2026
  * DATE: 10.06.2026
  */
-#include <windows.h>
-#include <time.h>
-#include "anim/Rnd/rnd.h"
-#include "def.h"
+
+#include <units/units.h>
 
 /* Window class name */
-#define WND_CLASS_NAME "039"
+#define WND_CLASS_NAME "039  window class"
 
 /* Forward declaration */
 LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
@@ -60,13 +58,14 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   hWnd = CreateWindowA(WND_CLASS_NAME, "anim", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
 
+  MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
+
   /* Message loop */
   while (TRUE)
   if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
   {
     if (msg.message == WM_QUIT)
       break;
-    TranslateMessage(&msg);
     DispatchMessage(&msg);
   }
   else
@@ -79,10 +78,19 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
   HDC hDC;
   PAINTSTRUCT ps;
   static INT W, H;
-  static MI6PRIM Pr, Pr1;
   
   switch (Msg)
-  {  
+  { 
+
+  case WM_CREATE:
+    SetTimer(hWnd, 3, 8, NULL);
+    MI6_AnimInit(hWnd);
+    return 0;
+
+  case WM_SIZE:
+    MI6_AnimResize(LOWORD(lParam), HIWORD(lParam));
+    SendMessage(hWnd, WM_TIMER, 47, 0);
+    return 0;
 
   case WM_ERASEBKGND:
     return 1;
@@ -93,36 +101,19 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     EndPaint(hWnd, &ps);
     return 0;
 
-  case WM_SIZE:
-    W = LOWORD(lParam);
-    H = HIWORD(lParam);
-    MI6_RndResize(W, H);
-    SendMessage(hWnd, WM_TIMER, 47, 0);
-
-    return 0;
-
-  case WM_CREATE:
-    MI6_RndInit(hWnd);
-    MI6_RndPrimLoad(&Pr1, "bin/models/btr.obj");
-
-    SetTimer(hWnd, 3, 8, NULL);
-
-    return 0;
-
   case WM_TIMER:
-    MI6_RndStart();
-    MI6_RndEnd();
+    MI6_AnimRender();
+
     hDC = GetDC(hWnd);
-    MI6_RndPrimDraw(&Pr1, MatrRotateY(30 * clock() / 1000.0));
-    MI6_RndCopyFrame(hDC);
+    MI6_AnimCopyFrame(hDC);
     ReleaseDC(hWnd, hDC);
+
     return 0;
 
   case WM_DESTROY:
-    MI6_RndPrimFree(&Pr1);
-    MI6_RndClose();
-    KillTimer(hWnd, 30);
-    PostMessage(NULL, WM_QUIT, 0, 0);
+    MI6_AnimClose();
+    PostQuitMessage(30);
+    KillTimer(hWnd, 47);
     return 0;
   }
   return DefWindowProc(hWnd, Msg, wParam, lParam);

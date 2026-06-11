@@ -3,21 +3,20 @@
  * PROGRAMMER: MI6
  * DATE: 09.06.2026
  */
-
 #include "rnd.h"
 #include <stdio.h>
 
-VOID MI6_RndPrimFree( MI6PRIM *Pr )
+VOID MI6_RndPrimFree( mi6PRIM *Pr )
 {
   free(Pr->V);
   memset(Pr, 0, sizeof(MI6VERTEX));
 }
  
-BOOL MI6_RndPrimCreate( MI6PRIM *Pr, INT NoofV, INT NoofI )
+BOOL MI6_RndPrimCreate( mi6PRIM *Pr, INT NoofV, INT NoofI )
 {
   INT size;
  
-  memset(Pr, 0, sizeof(MI6PRIM));
+  memset(Pr, 0, sizeof(mi6PRIM));
   size = sizeof(MI6VERTEX) * NoofV + sizeof(INT) * NoofI;
  
   if ((Pr->V = malloc(size)) == NULL)
@@ -30,7 +29,7 @@ BOOL MI6_RndPrimCreate( MI6PRIM *Pr, INT NoofV, INT NoofI )
   return TRUE;
 }
  
-VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World )
+VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
 {
   INT i;
   MATR wvp = MatrMulMatr3(Pr->Trans, World, MI6_RndMatrVP);
@@ -58,7 +57,7 @@ VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World )
   }
   free(pnts);
 }
-/* BOOL MI6_RndPrimCreateBublik( MI6PRIM *Pr, DBL R1, DBL R2, INT W, INT H )
+BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
 {
   INT i, j, k;
   DBL theta, phi;
@@ -67,22 +66,22 @@ VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World )
     return FALSE;
  
   /* Fill vertex array */
-  /* for (k = 0, i = 0, theta = 0; i < H; i++, theta += PI / (H - 1))
+  for (k = 0, i = 0, theta = 0; i < H; i++, theta += PI / (H - 1))
     for (j = 0, phi = 0; j < W; j++, phi += 2 * PI / (W - 1))
-      Pr->V[k++].P = VecSet(R1 + R2 * sin(theta) * cos(theta),
-                            R2 + cos(theta) * sin(theta) * cos(phi),
-                            R1 + sin(phi) * cos(phi) * sin(theta));
+      Pr->V[k++].P = VecSet(R * sin(theta) * sin(phi),
+                            R * cos(theta),
+                            R  * sin(phi) * cos(phi));
  
   /* Fill vertex array */
-  /*for (k = 0, i = 0; i < H - 1; i++)
+  for (k = 0, i = 0; i < H - 1; i++)
     for (j = 0; j < W - 1; j++)
     {
       /* bottom-left */
-    /*   Pr->I[k++] = i * W + j;
+      Pr->I[k++] = i * W + j;
       Pr->I[k++] = i * W + j + 1;
       Pr->I[k++] = (i + 1) * W + j;
       /* top-right */
-      /*Pr->I[k++] = (i + 1) * W + j;
+      Pr->I[k++] = (i + 1) * W + j;
       Pr->I[k++] = i * W + j + 1;
       Pr->I[k++] = (i + 1) * W + j + 1;
     }
@@ -91,19 +90,19 @@ VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World )
  /* Primitive free function.
  * ARGUMENTS:
  *   - primitive to be load:
- *       MI6PRIM *Pr;
+ *       mi6PRIM *Pr;
  *   - primitve filename (.OBJ):
  *       CHAR *FileName;
  * RETURNS:
  *   (BOOL) TRUE if success, FLASE otherwise.
  */
-BOOL MI6_RndPrimLoad( MI6PRIM *Pr, CHAR *FileName )
+BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName )
 {
   FILE *F;
   INT nv = 0, nf = 0;
   static CHAR Buf[3000];
  
-  memset(Pr, 0, sizeof(MI6PRIM));
+  memset(Pr, 0, sizeof(mi6PRIM));
  
   if ((F = fopen(FileName, "r")) == NULL)
     return FALSE;

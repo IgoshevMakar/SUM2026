@@ -25,7 +25,7 @@ typedef struct tagMI6VERTEX
   VEC P;  /* Vertex position */
 } MI6VERTEX;
 
-typedef struct tagMI6PRIM
+typedef struct tagmi6PRIM
 {
   MI6VERTEX *V; /* Vertex attributes array */
   INT NumOfV;   /* Number of vertices */
@@ -34,14 +34,14 @@ typedef struct tagMI6PRIM
   INT NumOfI;   /* Number of indices */
  
   MATR Trans;   /* Additional transformation matrix */
-} MI6PRIM;
+} mi6PRIM;
  
 
-BOOL MI6_RndPrimCreate( MI6PRIM *Pr, INT NoofV, INT NoofI );
-VOID MI6_RndPrimFree( MI6PRIM *Pr );
-VOID MI6_RndPrimDraw( MI6PRIM *Pr, MATR World );
-//BOOL MI6_RndPrimCreateBublik( MI6PRIM *Pr, DBL R1, DBL R2, INT W, INT H );
-BOOL MI6_RndPrimLoad( MI6PRIM *Pr, CHAR *FileName );
+BOOL MI6_RndPrimCreate( mi6PRIM *Pr, INT NoofV, INT NoofI );
+VOID MI6_RndPrimFree( mi6PRIM *Pr );
+VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World );
+BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H );
+BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName );
 
 VOID MI6_RndInit( HWND hWnd );
 VOID MI6_RndClose( VOID );

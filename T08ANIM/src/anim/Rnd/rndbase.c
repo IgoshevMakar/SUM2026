@@ -47,7 +47,7 @@ VOID MI6_RndResize( INT W, INT H )
 VOID MI6_RndCopyFrame( HDC hDC )
 {
   BitBlt(hDC, 0, 0, MI6_RndFrameW, MI6_RndFrameH,
-    MI6_hRndDCFrame, 0, 0, SRCCOPY);
+  MI6_hRndDCFrame, 0, 0, SRCCOPY);
 }
 
 
