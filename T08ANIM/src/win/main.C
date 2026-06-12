@@ -33,6 +33,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   WNDCLASS wc;
   MSG msg;
   HWND hWnd;
+  INT i;
 
   SetDbgMemHooks();
 
@@ -57,8 +58,8 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   /* Create window */
   hWnd = CreateWindowA(WND_CLASS_NAME, "anim", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
-
-  MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
+  for (i = 0; i < 20; i++)
+    MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
 
   /* Message loop */
   while (TRUE)

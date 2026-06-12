@@ -70,7 +70,7 @@ BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
     for (j = 0, phi = 0; j < W; j++, phi += 2 * PI / (W - 1))
       Pr->V[k++].P = VecSet(R * sin(theta) * sin(phi),
                             R * cos(theta),
-                            R  * sin(phi) * cos(phi));
+                            R * sin(theta) * cos(phi));
  
   /* Fill vertex array */
   for (k = 0, i = 0; i < H - 1; i++)

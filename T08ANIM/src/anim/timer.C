@@ -5,14 +5,8 @@
  */
 #include <windows.h>
 #include <time.h>
+#include "anim/anim.h"
 
-typedef unsigned long long UINT64;
-
-DOUBLE GlobalTime, GlobalDeltaTime, /* Global time and interframe interval */
-  MI6_Time, MI6_DeltaTime,             /* Time with pause and interframe interval */
-  MI6_FPS;                         /* Frames per second value */
-BOOL
-  MI6_IsPause;                     /* Pause flag */
 
 static UINT64
   StartTime,    /* Start program time */
@@ -35,9 +29,9 @@ VOID MI6_TimerInit( VOID )
 
   PauseTime = 0;
   FrameCounter = 0;
-  MI6_IsPause = FALSE;
-  MI6_Time = MI6_DeltaTime = 0;
-  MI6_FPS = 30;
+  MI6_Anim.IsPause = FALSE;
+  MI6_Anim.Time = MI6_Anim.DeltaTime = 0;
+  MI6_Anim.FPS = 30;
 } 
 
 VOID MI6_TimerResponse( VOID )
@@ -47,18 +41,18 @@ VOID MI6_TimerResponse( VOID )
   QueryPerformanceCounter(&t);
  
   /* Global time */
-  GlobalTime = (DOUBLE)(t.QuadPart - StartTime) / TimePerSec;
-  GlobalDeltaTime = (DOUBLE)(t.QuadPart - OldTime) / TimePerSec;
+  MI6_Anim.GlobalTime = (DOUBLE)(t.QuadPart - StartTime) / TimePerSec;
+  MI6_Anim.GlobalDeltaTime = (DOUBLE)(t.QuadPart - OldTime) / TimePerSec;
 
   /* Time with pause */
-  if (!MI6_IsPause)
+  if (!MI6_Anim.IsPause)
   {
-    MI6_Time = (DOUBLE)(t.QuadPart - PauseTime - StartTime) / TimePerSec;
-    MI6_DeltaTime = GlobalDeltaTime;
+    MI6_Anim.Time = (DOUBLE)(t.QuadPart - PauseTime - StartTime) / TimePerSec;
+    MI6_Anim.DeltaTime = MI6_Anim.GlobalDeltaTime;
   }
   else
   {
-    MI6_DeltaTime = 0;
+    MI6_Anim.DeltaTime = 0;
     PauseTime += t.QuadPart - OldTime;
   }
  
@@ -66,9 +60,9 @@ VOID MI6_TimerResponse( VOID )
   FrameCounter++;
   if (t.QuadPart - OldTimeFPS > 0.1 * TimePerSec)
   {
-    MI6_FPS = FrameCounter * TimePerSec / (DOUBLE)(t.QuadPart - OldTimeFPS);
+    MI6_Anim.FPS = FrameCounter * TimePerSec / (DOUBLE)(t.QuadPart - OldTimeFPS);
     OldTimeFPS = t.QuadPart;
     FrameCounter = 0;
-  }
+  }                            
   OldTime = t.QuadPart;
 }

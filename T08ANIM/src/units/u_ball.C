@@ -1,10 +1,11 @@
 #include "units.h"
 
-
 typedef struct tagMI6UINT_BALL
 {
   MI6_UNIT_BASE_FIELDS;
   mi6PRIM Ball;
+  VEC Pos;
+  DBL Shift, Scale;
 } mi6UNIT_BALL;
 
 /* Unit initialization function.
@@ -18,6 +19,11 @@ typedef struct tagMI6UINT_BALL
 static VOID MI6_UnitInit( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
 {
   MI6_RndPrimCreateSphere(&Uni->Ball, 1, 10, 8);
+  Uni->Pos = VecSet(Rnd1() * 8, 1, Rnd1() * 8);
+
+  Uni->Shift = 1 + Rnd0() * 47;
+  Uni->Scale = 3 + Rnd1() * 0.5;
+
 } /* End of 'MI6_UnitInit' function */
  
 /* Unit deinitialization function.
@@ -55,7 +61,7 @@ static VOID MI6_UnitResponse( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
  */
 static VOID MI6_UnitRender( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
 {
-  MI6_RndPrimDraw(&Uni->Ball, MatrTranslate(VecSet(0, 0, 0)));
+  MI6_RndPrimDraw(&Uni->Ball, MatrTranslate(VecAddVec(Uni->Pos, VecSet(0, fabs(sin(5 * Ani->Time)), 0))));
 } /* End of 'MI6_UnitRender' function */
  
 /* Unit creation function.
