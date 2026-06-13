@@ -16,6 +16,7 @@
  *   (mi6UNIT *) pointer to created unit.
  */
 mi6UNIT * MI6_UnitCreateBounceBall( VOID );
+ mi6UNIT * MI6_UnitCreateControl( VOID );
 
 #endif 
 

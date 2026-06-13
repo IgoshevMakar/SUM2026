@@ -270,6 +270,22 @@
 							>
 						</File>
 					</Filter>
+					<Filter
+						Name="Resources"
+						>
+						<File
+							RelativePath=".\src\anim\Rnd\res\rndres.c"
+							>
+						</File>
+						<File
+							RelativePath=".\src\anim\Rnd\res\rndres.h"
+							>
+						</File>
+						<File
+							RelativePath=".\src\anim\Rnd\res\rndshd.c"
+							>
+						</File>
+					</Filter>
 				</Filter>
 			</Filter>
 		</Filter>

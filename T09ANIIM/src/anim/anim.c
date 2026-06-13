@@ -17,6 +17,8 @@ VOID MI6_AnimInit( HWND hWnd )
   MI6_Anim.H = MI6_RndFrameH;
 
   MI6_TimerInit();
+
+  MI6_AnimInputInit();
 }
 
 VOID MI6_AnimClose( VOID )
@@ -47,6 +49,9 @@ VOID MI6_AnimRender( VOID )
   INT i;
 
   MI6_TimerResponse();
+
+  MI6_AnimInputResponse();
+
 
   for (i = 0; i < MI6_Anim.NumOfUnits; i++)
     MI6_Anim.Units[i]->Response(MI6_Anim.Units[i], &MI6_Anim);

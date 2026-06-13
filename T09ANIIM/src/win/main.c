@@ -61,8 +61,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   for (i = 0; i < 15; i++)
     MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
 
-  MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
-
+  MI6_AnimUnitAdd(MI6_UnitCreateControl());
   /* Message loop */
   while (TRUE)
   if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -74,6 +73,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   else
     SendMessage(hWnd, WM_TIMER, 47, 0);
   return msg.wParam;
+
 } /* End of 'WinMain' function */
 
 LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)

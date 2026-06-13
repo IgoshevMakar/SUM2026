@@ -6,6 +6,7 @@
 #define GLEW_STATIC
 #include <glew.h>
 #include "def.h"
+#include "res/rndres.h"
 
 extern HWND MI6_hRndWnd;        /* Work window handle */
 extern HDC MI6_hRndDC;     /* Work window memory device context  */
@@ -55,6 +56,7 @@ VOID MI6_RndStart( VOID );
 VOID MI6_RndEnd( VOID );
 VOID MI6_RndProjSet( VOID );
 VOID MI6_RndCamSet( VEC Loc, VEC At, VEC Up );
+
 
 #ifndef __rnd_h_
 #define __rnd_h_

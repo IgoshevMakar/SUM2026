@@ -9,7 +9,7 @@
 #include "def.h"
 #include "rnd/rnd.h"
 
-#define MI6_MAX_UNITS 3000
+#define MI6_MAX_UNITS 30000
  
 typedef struct tagmi6UNIT mi6UNIT;
 typedef struct tagMI6ANIM MI6ANIM;
@@ -62,5 +62,8 @@ mi6UNIT * MI6_AnimUnitCreate( INT size );
 
 VOID MI6_TimerInit( VOID );
 VOID MI6_TimerResponse( VOID );
+
+VOID MI6_AnimInputInit( VOID );
+VOID MI6_AnimInputResponse( VOID );
 
 #endif
