@@ -18,15 +18,61 @@ BOOL MI6_RndPrimCreate( mi6PRIM *Pr, INT NoofV, INT NoofI )
   INT size;
  
   memset(Pr, 0, sizeof(mi6PRIM));
-  size = sizeof(MI6VERTEX) * NoofV + sizeof(INT) * NoofI;
+  Pr->Trans = MatrIdenity();
+  Pr->Type = Type;
+
+  glGenVertexArrays(1, &Pr->VA);
+
+  /* Vertex data */
+  if (V != NULL && NoofV != 0)
+  {
+    glBindVertexArray(Pr->VA);
+    glGenBuffers(1, &Pr->VBuf);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, Pr->VBuf);
+
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vg4VERTEX) * NoofV, V, GL_STATIC_DRAW);
  
-  if ((Pr->V = malloc(size)) == NULL)
-    return FALSE;
-  Pr->I = (INT *)(Pr->V + NoofV);
-  Pr->NumOfV = NoofV;
-  Pr->NumOfI = NoofI;
-  Pr->Trans = MatrIdentity();
-  memset(Pr->V, 0, size);
+    glVertexAttribPointer(0, 3, GL_FLOAT, FALSE, sizeof(vg4VERTEX),
+                          (VOID *)0); /* position */
+    glVertexAttribPointer(1, 2, GL_FLOAT, FALSE, sizeof(vg4VERTEX),
+                          (VOID *)sizeof(VEC)); /* texture coordinates */
+    glVertexAttribPointer(2, 3, GL_FLOAT, FALSE, sizeof(vg4VERTEX),
+                          (VOID *)(sizeof(VEC) + sizeof(VEC2))); /* normal */
+    glVertexAttribPointer(3, 4, GL_FLOAT, FALSE, sizeof(vg4VERTEX),
+                          (VOID *)(sizeof(VEC) * 2 + sizeof(VEC2))); /* color */
+ 
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(3);
+ 
+    glBindVertexArray(0);
+  }
+
+  if (Ind != NULL && NoofI != 0)
+  {
+    glGenBuffers(1, &Pr->IBuf);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Pr->IBuf);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(INT) * NoofI, Ind, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+ 
+    Pr->NumOfElements = NoofI;
+  }
+  else
+    Pr->NumOfElements = NoofV;
+    if (NoofV > 0)
+    {
+      INT i;
+ 
+      Pr->MinBB = Pr->MaxBB = V[0].P;
+      for (i = 1; i < NoofV; i++)
+      {
+        Pr->MinBB = VecMinVec(Pr->MinBB, V[i].P);
+        Pr->MaxBB = VecMaxVec(Pr->MaxBB, V[i].P);
+      }
+    }
+  }
   return TRUE;
 }
 
