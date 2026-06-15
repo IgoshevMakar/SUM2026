@@ -58,7 +58,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   hWnd = CreateWindowA(WND_CLASS_NAME, "anim", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
   srand(30);
-  for (i = 0; i < 15; i++)
+  for (i = 0; i < 50; i++)
     MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
 
   MI6_AnimUnitAdd(MI6_UnitCreateControl());

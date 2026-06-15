@@ -8,9 +8,6 @@ typedef struct tagmi6UINT_CONTROL
   DBL Speed;
 } mi6UNIT_CONTROL;
 
-
-
-
 /* Unit initialization function.
  * ARGUMENTS:
  *   - self-pointer to unit object:
@@ -23,6 +20,7 @@ typedef struct tagmi6UINT_CONTROL
 {
   Uni->CamLoc = VecSet(8, 8, 8);
   Uni->CamAt = VecSet(0, 0, 0);
+  Uni->Speed = 1;
 } /* End of 'MI6_UnitInit' function */
  
 /* Unit deinitialization function.
@@ -48,9 +46,6 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
  static VOID MI6_UnitResponse( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 {
   VEC d;
-
-  if (Ani->Keys[VK_CONTROL] && Ani->KeysClick['F'])
-    MI6_AnimFlipFullScreen();
  
   if (Ani->KeysClick['P'])
     Ani->IsPause = !Ani->IsPause;
@@ -60,7 +55,8 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 
   d = VecNormalize(VecSubVec(Uni->CamAt, Uni->CamLoc));;
 
-  Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(d, Ani->GlobalDeltaTime * Uni->Speed * (Ani->Keys[VK_UP] - Ani->Keys[VK_DOWN])));
+  Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(d, Ani->GlobalDeltaTime * (Uni->Speed + 30 * Ani->Keys[VK_SHIFT]) * 
+    (Ani->Keys[VK_UP] - Ani->Keys[VK_DOWN])));
 
   MI6_RndCamSet(Uni->CamLoc, Uni->CamAt, VecSet(0, 1, 0));
 } /* End of 'MI6_UnitResponse' function */
@@ -76,9 +72,14 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 static VOID MI6_UnitRender( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 {
   CHAR Buf[102];
-  SetBkMode(Ani->hDC, TRANSPARENT);
-  SetTextColor(Ani->hDC, RGB(255, 0, 255));
-  TextOut(Ani->hDC, Ani->W / 2, Ani->H / 2, Buf, sprintf(Buf, "FPS::%.3f", MI6_Anim.FPS));
+  static DBL OldTime;
+  
+  if (Ani->GlobalTime - OldTime < 2)
+  {
+    sprintf(Buf, "FPS: %.3f", Ani->FPS);
+    SetWindowText(Ani->hWnd, Buf);
+    OldTime = Ani->GlobalTime;
+  }
 } /* End of 'MI6_UnitRender' function */
  
 /* Unit creation function.
