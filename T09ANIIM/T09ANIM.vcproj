@@ -208,6 +208,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\u_cow.c"
+					>
+				</File>
+				<File
 					RelativePath=".\src\units\units.h"
 					>
 				</File>
@@ -256,6 +260,10 @@
 					</File>
 					<File
 						RelativePath=".\src\anim\Rnd\rnddata.c"
+						>
+					</File>
+					<File
+						RelativePath=".\src\anim\Rnd\rnddebug.c"
 						>
 					</File>
 					<File

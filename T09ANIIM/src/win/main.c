@@ -58,9 +58,9 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   hWnd = CreateWindowA(WND_CLASS_NAME, "anim", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
   srand(30);
-  for (i = 0; i < 50; i++)
+  for (i = 0; i < 5; i++)
     MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
-
+  MI6_AnimUnitAdd(MI6_UnitCreateCow());
   MI6_AnimUnitAdd(MI6_UnitCreateControl());
   /* Message loop */
   while (TRUE)
@@ -104,9 +104,32 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
     EndPaint(hWnd, &ps);
     return 0;
 
+case WM_ACTIVATE:
+    MI6_Anim.IsActive = HIWORD(wParam) != WA_INACTIVE;
+    return 0;
+
+  case WM_ENTERSIZEMOVE:
+    MI6_Anim.IsActive = FALSE;
+    return 0;
+
+  case WM_EXITSIZEMOVE:
+    MI6_Anim.IsActive = TRUE;
+    return 0;
+
   case WM_TIMER:
     MI6_AnimRender();
     MI6_AnimCopyFrame();
+    return 0;
+
+  case WM_LBUTTONDOWN:
+    SetCapture(hWnd);
+    return 0;
+  case WM_LBUTTONUP:
+    ReleaseCapture();
+    return 0;
+
+  case WM_MOUSEWHEEL:
+    MI6_MouseWheel += (SHORT)HIWORD(wParam);
     return 0;
 
   case WM_DESTROY:

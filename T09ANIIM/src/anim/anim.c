@@ -52,6 +52,8 @@ VOID MI6_AnimRender( VOID )
 
   MI6_AnimInputResponse();
 
+  if (MI6_Anim.IsActive)
+    MI6_AnimInputResponse();
 
   for (i = 0; i < MI6_Anim.NumOfUnits; i++)
     MI6_Anim.Units[i]->Response(MI6_Anim.Units[i], &MI6_Anim);

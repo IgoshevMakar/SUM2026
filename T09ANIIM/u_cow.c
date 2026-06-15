@@ -1,67 +1,72 @@
-#include "units.h"
+#include "units/units.h"
 
-
-typedef struct tagMI6UINT_BALL
+typedef struct tagMI6UINT_COW
 {
   MI6_UNIT_BASE_FIELDS;
-  mi6PRIM Ball;
-  VEC Pos;
-  DBL Shift, Scale;
-} mi6UNIT_BALL;
+  mi6PRIM Cow;
+} mi6UNIT_COW;
 
 /* Unit initialization function.
  * ARGUMENTS:
  *   - self-pointer to unit object:
- *       mi6UNIT_BALL *Uni;
+ *       mi6UNIT_COW *Uni;
  *   - animation context:
  *       MI6ANIM *Ani;
  * RETURNS: None.
  */
-static VOID MI6_UnitInit( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
+static VOID MI6_UnitInit( mi6UNIT_COW *Uni, MI6ANIM *Ani )
 {
-  MI6_RndPrimCreateSphere(&Uni->Ball, 0.1, 100, 100);
-  Uni->Pos = VecSet(Rnd1() * 8, 1, -10);
-  Uni->Shift = 1 + Rnd0() * 47;
-  Uni->Scale = 3 + Rnd1() * 0.5;
+  MI6_RndPrimLoad(&Uni->Cow, "bin/models/cow.obj");
+
 
 } /* End of 'MI6_UnitInit' function */
  
 /* Unit deinitialization function.
  * ARGUMENTS:
  *   - self-pointer to unit object:
- *       mi6UNIT_BALL *Uni;
+ *       mi6UNIT_COW *Uni;
  *   - animation context:
  *       MI6ANIM *Ani;
  * RETURNS: None.
  */
-static VOID MI6_UnitClose( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
+static VOID MI6_UnitClose( mi6UNIT_COW *Uni, MI6ANIM *Ani )
 {
-  MI6_RndPrimFree(&Uni->Ball);
+  MI6_RndPrimFree(&Uni->Cow);
 } /* End of 'MI6_UnitClose' function */
  
 /* Unit inter frame events handle function.
  * ARGUMENTS:
  *   - self-pointer to unit object:
- *       mi6UNIT_BALL *Uni;
+ *       mi6UNIT_COW *Uni;
  *   - animation context:
  *       MI6ANIM *Ani;
  * RETURNS: None.
  */
-static VOID MI6_UnitResponse( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
+static VOID MI6_UnitResponse( mi6UNIT_COW *Uni, MI6ANIM *Ani )
 {
 } /* End of 'MI6_UnitResponse' function */
  
 /* Unit render function.
  * ARGUMENTS:
  *   - self-pointer to unit object:
- *       mi6UNIT_BALL *Uni;
+ *       mi6UNIT_COW *Uni;
  *   - animation context:
  *       MI6ANIM *Ani;
  * RETURNS: None.
  */
-static VOID MI6_UnitRender( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
+static VOID MI6_UnitRender( mi6UNIT_COW *Uni, MI6ANIM *Ani )
 {
-  MI6_RndPrimDraw(&Uni->Ball, MatrTranslate(VecAddVec(Uni->Pos, VecSet(0, fabs(sin(5 * Ani->Time)), 0))));
+  INT s = 2, i, j, k;
+
+  for (i = -s; i <= s; i++)
+    for (j = -s; j <= s; j++)
+      for (k = -s; k <= s; k++)
+      MI6_RndPrimDraw(&Uni->Cow,
+        MatrMulMatr5(MatrScale(VecSet1(1)),
+          MatrRotateY(sin(Ani->Time) * 30),
+          MatrRotateX(sin(Ani->Time) * 30),
+          MatrRotateZ(sin(Ani->Time) * 30),
+          MatrTranslate(VecSet(k, i, j))));
 } /* End of 'MI6_UnitRender' function */
  
 /* Unit creation function.
@@ -71,18 +76,17 @@ static VOID MI6_UnitRender( mi6UNIT_BALL *Uni, MI6ANIM *Ani )
  * RETURNS:
  *   (mi6UNIT *) pointer to created unit.
  */
-mi6UNIT * MI6_UnitCreateBounceBall( VOID )
+mi6UNIT * MI6_UnitCreateCow( VOID )
 {
   mi6UNIT *Uni;
  
   /* Memory allocation */
-  if ((Uni = MI6_AnimUnitCreate(sizeof(mi6UNIT_BALL))) == NULL)
+  if ((Uni = MI6_AnimUnitCreate(sizeof(mi6UNIT_COW))) == NULL)
     return NULL;
  
   /* Setup unit methods */
   Uni->Init = (VOID *)MI6_UnitInit;
   Uni->Close = (VOID *)MI6_UnitClose;
-  Uni->Response = (VOID *)MI6_UnitResponse;
   Uni->Render = (VOID *)MI6_UnitRender;
  
   return Uni;

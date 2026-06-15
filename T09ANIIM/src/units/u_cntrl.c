@@ -50,13 +50,25 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
   if (Ani->KeysClick['P'])
     Ani->IsPause = !Ani->IsPause;
 
+  if (Ani->Keys[VK_SHIFT] && Ani->KeysClick['W'])
+  {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+  }
+
   if (Ani->KeysClick[VK_ESCAPE])
     MI6_AnimDoExit();
 
   d = VecNormalize(VecSubVec(Uni->CamAt, Uni->CamLoc));;
 
-  Uni->CamLoc = VecAddVec(Uni->CamLoc, VecMulNum(d, Ani->GlobalDeltaTime * (Uni->Speed + 30 * Ani->Keys[VK_SHIFT]) * 
-    (Ani->Keys[VK_UP] - Ani->Keys[VK_DOWN])));
+  Uni->CamLoc = 
+    VecAddVec(Uni->CamLoc,
+      VecMulNum(d, Ani->GlobalDeltaTime * 0.1 * (Ani->Mdz)));
+
+  Uni->CamLoc =
+    PointTransform(Uni->CamLoc,
+      MatrRotateY(Ani->Keys[VK_LBUTTON] * 
+        Ani->Mdx));
 
   MI6_RndCamSet(Uni->CamLoc, Uni->CamAt, VecSet(0, 1, 0));
 } /* End of 'MI6_UnitResponse' function */

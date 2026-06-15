@@ -71,6 +71,15 @@ VOID MI6_RndInit( HWND hWnd )
   MI6_hRndGLRC = hRC;
   wglMakeCurrent(MI6_hRndDC, MI6_hRndGLRC);
  
+  #ifndef NDEBUG
+    OutputDebugString(glGetString(GL_VERSION));
+    OutputDebugString("\n");
+    OutputDebugString(glGetString(GL_VENDOR));
+    OutputDebugString("\n");
+    OutputDebugString(glGetString(GL_RENDERER));
+    OutputDebugString("\n");
+  #endif /* NDEBUG */
+
   /* Render parameters setup */
   glEnable(GL_DEPTH_TEST);
  

@@ -21,6 +21,10 @@ typedef FLOAT FLT;
 /* Degrees to radians conversion */
 #define D2R(A) ((A) * (PI / 180.0))
 #define Degree2Radian(a) D2R(a)
+
+#define MatrMulMatr3(A, B, C) MatrMulMatr(A, MatrMulMatr(B, C))
+#define MatrMulMatr4(A, B, C, D) MatrMulMatr(MatrMulMatr(A, B), MatrMulMatr(B , C))
+#define MatrMulMatr5(A, B, C, D, E) MatrMulMatr3(MatrMulMatr(A, B), MatrMulMatr(B , C), E)
  
 #define UnitMatrix \
 {                  \
@@ -435,7 +439,7 @@ __inline MATR MatrRotate( VEC P, FLT a )
   return m;
 }
 
-#define MatrMulMatr3(A, B, C) MatrMulMatr(A, MatrMulMatr(B, C))
+//#define MatrMulMatr3(A, B, C) MatrMulMatr(A, MatrMulMatr(B, C))
 
 /* Perspective (frustum) projection matrix setup function.
  * ARGUMENTS:

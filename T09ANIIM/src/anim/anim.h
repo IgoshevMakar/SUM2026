@@ -46,9 +46,12 @@ struct tagMI6ANIM
     FPS;                      
   BOOL
     IsPause;
+
+  INT Mx, My, Mz, Mdx, Mdy, Mdz;
 };  
 
 extern MI6ANIM MI6_Anim;
+extern INT MI6_MouseWheel;
 
 VOID MI6_AnimInit( HWND hWnd );
 VOID MI6_AnimClose( VOID );

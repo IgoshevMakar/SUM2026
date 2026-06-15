@@ -41,7 +41,9 @@ typedef struct tagmi6PRIM
   MATR Trans;   /* Additional transformation matrix */
 } mi6PRIM;
  
-
+VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
+                             INT Length, const CHAR *Message,
+                             const VOID *UserParam );
 BOOL MI6_RndPrimCreate( mi6PRIM *Pr, INT NoofV, INT NoofI );
 VOID MI6_RndPrimFree( mi6PRIM *Pr );
 VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World );
