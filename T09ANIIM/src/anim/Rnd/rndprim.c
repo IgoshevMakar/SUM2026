@@ -29,7 +29,29 @@ BOOL MI6_RndPrimCreate( mi6PRIM *Pr, INT NoofV, INT NoofI )
   memset(Pr->V, 0, size);
   return TRUE;
 }
- 
+
+VOID MI6_RndPrimTriMeshAutoNormals( MI6VERTEX *V, INT NumOfV, INT *Ind, INT NumOfI )
+{
+  INT i;
+
+  for(i = 0; i < NumOfV; i++)
+    V[i].N = VecSet(0, 0, 0);
+
+  for (i = 0; i < NumOfI; i += 3)
+  {
+    VEC
+      p0 = V[Ind[i]].P,
+      p1 = V[Ind[i + 1]].P,
+      p2 = V[Ind[i + 2]].P,
+      N = VecNormalize(VecCrossVec(VecSubVec(p1, p0), VecSubVec(p2, p0)));
+
+    V[Ind[i]].N = VecAddVec(V[Ind[i]].N, N);
+    V[Ind[i + 1]].N = VecAddVec(V[Ind[i + 1]].N, N);
+    V[Ind[i + 2]].N = VecAddVec(V[Ind[i + 2]].N, N);
+  }
+  for(i = 0; i < NumOfV; i++)
+    V[i].N = VecNormalize(V[i].N);
+}
 VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
 {
   INT i;
@@ -54,6 +76,15 @@ BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
   VEC L = VecNormalize(VecSet(1, 1, 1));
   VEC4 color = Vec4Set(Rnd0(), Rnd0(),Rnd0(), Rnd0());
  
+  INT size;
+ 
+  memset(Pr, 0, sizeof(mi6PRIM));
+  size = sizeof(MI6VERTEX) * NoofV + sizeof(INT) * NoofI;
+ 
+  if ((Pr->V = malloc(size)) == NULL)
+    return FALSE;
+  Pr->I = (INT *)(Pr->V + NoofV);
+
   if (!MI6_RndPrimCreate(Pr, W * H, (H - 1) * (W - 1) * 2 * 3))
     return FALSE;
 
@@ -99,10 +130,19 @@ BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
  */
 BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName )
 {
+  INT i;
   FILE *F;
   INT nv = 0, nf = 0;
+  VEC L = VecNormalize(VecSet(1, 1, 1));
   static CHAR Buf[3000];
  
+  memset(Pr, 0, sizeof(mi6PRIM));
+  size = sizeof(MI6VERTEX) * NoofV + sizeof(INT) * NoofI;
+ 
+  if ((Pr->V = malloc(size)) == NULL)
+    return FALSE;
+  Pr->I = (INT *)(Pr->V + NoofV);
+
   memset(Pr, 0, sizeof(mi6PRIM));
  
   if ((F = fopen(FileName, "r")) == NULL)
@@ -186,5 +226,15 @@ BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName )
     }
   }
   fclose(F);
+  MI6_RndPrimTriMeshAutoNormals(Pr->V, Pr->NumOfV, Pr->I, Pr->NumOfI);
+
+  for (i = 0; i < Pr->NumOfV; i++) 
+  {
+    FLT nl = VecDotVec(Pr->V[i].N, L);
+
+    if (nl < 0.1)
+      nl = 0.1;
+    Pr->V[i].C = Vec4Set(0.9 * nl, 0 * nl, 0.9 * nl, 1);
+  }
   return TRUE;
 } /* End of 'MI6_RndPrimLoad' function */

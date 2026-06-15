@@ -87,6 +87,7 @@ VOID MI6_AnimDoExit( VOID )
 
 VOID MI6_AnimUnitAdd( mi6UNIT *Uni )
 {
+
   if (MI6_Anim.NumOfUnits < MI6_MAX_UNITS)
     MI6_Anim.Units[MI6_Anim.NumOfUnits++] = Uni, Uni->Init(Uni, &MI6_Anim);
 }

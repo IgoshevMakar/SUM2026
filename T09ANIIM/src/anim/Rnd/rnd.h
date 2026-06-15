@@ -20,25 +20,28 @@ extern DBL
 extern MATR
   MI6_RndMatrView, /* View coordinate system matrix */
   MI6_RndMatrProj, /* Projection coordinate system matrix */
-  MI6_RndMatrVP;   /* Stored (View * Proj) matrix */
+  MI6_RndMatrVP; /* Stored (View * Proj) matrix */
 
 typedef struct tagMI6VERTEX
 {
-  VEC P;   /* Vertex position */
+  VEC P;  /* Vertex position */
   VEC2 T;  /* Vertex texture coordinate */
-  VEC N;   /* Vertex normal */
+  VEC N;  /* Vertex normal */
   VEC4 C;  /* Vertex color */
 } MI6VERTEX;
 
 typedef struct tagmi6PRIM
 {
-  MI6VERTEX *V; /* Vertex attributes array */
-  INT NumOfV;   /* Number of vertices */
- 
-  INT *I;       /* Index array (for trimesh – by 3 ones) */
-  INT NumOfI;   /* Number of indices */
- 
-  MATR Trans;   /* Additional transformation matrix */
+  mi6PRIM_TYPE Type;
+
+  INT 
+    VA,
+    VBuf,
+    IBUF;
+
+  INT NumOfElements;
+
+  VEC MinBB, MaxBB;
 } mi6PRIM;
  
 VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
@@ -49,7 +52,7 @@ VOID MI6_RndPrimFree( mi6PRIM *Pr );
 VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World );
 BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H );
 BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName );
-
+VOID MI6_RndPrimTriMeshAutoNormals( MI6VERTEX *V, INT NumOfV, INT *Ind, INT NumOfI );
 VOID MI6_RndInit( HWND hWnd );
 VOID MI6_RndClose( VOID );
 VOID MI6_RndResize( INT W, INT H );
@@ -66,4 +69,3 @@ VOID MI6_RndCamSet( VEC Loc, VEC At, VEC Up );
 #include "def.h"
 
 #endif /* __rnd_h_ */
-

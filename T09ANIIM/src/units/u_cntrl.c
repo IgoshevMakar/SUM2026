@@ -46,14 +46,20 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
  static VOID MI6_UnitResponse( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 {
   VEC d;
+  INT modes[2];
  
   if (Ani->KeysClick['P'])
     Ani->IsPause = !Ani->IsPause;
 
   if (Ani->Keys[VK_SHIFT] && Ani->KeysClick['W'])
   {
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glGetIntegerv(GL_POLYGON_MODE, modes);
 
+    if (modes[0] == GL_FILL)
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    else
+      glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    
   }
 
   if (Ani->KeysClick[VK_ESCAPE])
