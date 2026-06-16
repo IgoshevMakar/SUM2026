@@ -12,6 +12,7 @@ HWND MI6_hRndWnd;        /* Work window handle */
 HDC MI6_hRndDC;     /* Work window memory device context  */
 HBITMAP MI6_hRndBmFrame; /* Work window background bitmap handle */
 INT MI6_RndFrameW, MI6_RndFrameH; /* Work window size */
+HGLRC MI6_hRndGLRC;
 
 DBL
   MI6_RndProjSize = 0.1,     /* Project plane fit square */

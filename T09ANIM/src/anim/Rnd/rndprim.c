@@ -101,9 +101,17 @@ VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
     Pr->Type == MI6_RND_PRIM_LINES ? GL_LINES :
     Pr->Type == MI6_RND_PRIM_TRIMESH ? GL_TRIANGLES :
     GL_POINTS;
-  MATR wvp = MatrMulMatr3(Pr->Trans, World, MI6_RndMatrVP);
+  MATR wvp = MatrMulMatr(World, MatrMulMatr(MI6_RndMatrView, MI6_RndMatrProj));
+  UINT ProgId = MI6_RndShaders[0].ProgId;
+  INT loc;
  
-  glLoadMatrixf(wvp.A[0]);
+  glUseProgram(ProgId);
+  if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
+    glUniformMatrix4fv(loc, 1, FALSE, wvp.A[0]);
+  if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
+    glUniform1f(loc, MI6_Anim.Time);
+ 
+  //glLoadMatrixf(wvp.A[0]);
   glBindVertexArray(Pr->VA);
 
   if(Pr->IBuf == 0)
@@ -115,6 +123,7 @@ VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   }
   glBindVertexArray(0);
+  glUseProgram(0);
 }
 BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
 {

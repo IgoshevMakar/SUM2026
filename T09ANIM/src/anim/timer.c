@@ -29,7 +29,7 @@ VOID MI6_TimerInit( VOID )
   FrameCounter = 0;
   MI6_Anim.IsPause = FALSE;
   MI6_Anim.Time = MI6_Anim.DeltaTime = 0;
-  MI6_Anim.FPS = 30;
+  MI6_Anim.FPS = 0;
 } 
 
 VOID MI6_TimerResponse( VOID )

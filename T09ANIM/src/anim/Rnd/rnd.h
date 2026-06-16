@@ -11,6 +11,7 @@
 extern HWND MI6_hRndWnd;        /* Work window handle */
 extern HDC MI6_hRndDC;     /* Work window memory device context  */
 extern INT MI6_RndFrameW, MI6_RndFrameH; /* Work window size */
+extern HGLRC MI6_hRndGLRC;
 
 extern DBL
   MI6_RndProjSize,     /* Project plane fit square */
@@ -21,6 +22,7 @@ extern MATR
   MI6_RndMatrView, /* View coordinate system matrix */
   MI6_RndMatrProj, /* Projection coordinate system matrix */
   MI6_RndMatrVP; /* Stored (View * Proj) matrix */
+
 
 typedef struct tagmi6VERTEX
 {
@@ -52,6 +54,27 @@ typedef struct tagmi6PRIM
   MATR Trans;
 } mi6PRIM;
  
+#define MI6_MAX_SHADERS 30
+#define MI6_STR_MAX 3000
+/***
+ * Shaders support
+ ***/
+ 
+/* Shader program store type */
+typedef struct tagMI6SHADER
+{
+  CHAR Name[MI6_STR_MAX]; /* Shader filename prefix */
+  UINT ProgId;            /* Shader program Id */
+} MI6SHADER;
+ 
+/* Shaders stock maximum size */
+
+ 
+/* Array of shaders */
+extern MI6SHADER MI6_RndShaders[MI6_MAX_SHADERS];
+/* Shadres array store size */
+extern INT MI6_RndShadersSize;
+
 VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
                              INT Length, const CHAR *Message,
                              const VOID *UserParam );

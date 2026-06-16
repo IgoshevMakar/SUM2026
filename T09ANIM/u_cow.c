@@ -62,7 +62,7 @@ static VOID MI6_UnitRender( mi6UNIT_COW *Uni, MI6ANIM *Ani )
     for (j = -s; j <= s; j++)
       for (k = -s; k <= s; k++)
       MI6_RndPrimDraw(&Uni->Cow,
-        MatrMulMatr5(MatrScale(VecSet1(1)),
+        MatrMulMatr5(MatrScale(VecSet1(2)),
           MatrRotateY(sin(Ani->Time) * 30),
           MatrRotateX(sin(Ani->Time) * 30),
           MatrRotateZ(sin(Ani->Time) * 30),
