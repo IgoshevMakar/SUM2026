@@ -6,6 +6,7 @@
 #include "rnd.h"
 #include <stdio.h>
 #include <string.h>
+#include "anim/anim.h"
  
 VOID MI6_RndPrimCreate( mi6PRIM *Pr, mi6PRIM_TYPE Type, mi6VERTEX *V, INT NoofV, INT *Ind, INT NoofI )
 {
@@ -111,7 +112,7 @@ VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
   if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
     glUniform1f(loc, MI6_Anim.Time);
  
-  //glLoadMatrixf(wvp.A[0]);
+  glLoadMatrixf(wvp.A[0]);
   glBindVertexArray(Pr->VA);
 
   if(Pr->IBuf == 0)
@@ -127,16 +128,18 @@ VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
 }
 BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
 {
+
   INT i, j, k;
   DBL theta, phi;
   DBL nl;
   VEC L = VecNormalize(VecSet(1, 1, 1));
-  VEC4 color = Vec4Set(Rnd0(), Rnd0(),Rnd0(), Rnd0());
+  /* VEC4 color = Vec4Set(Rnd0(), Rnd0(),Rnd0(), Rnd0()); */
   mi6VERTEX *V;
   INT *Ind;
   INT size;
 
-  glColor3f(0.8, 0, 0.8);
+  /*glColor3f(0.8, 0, 0.8);*/
+
  
   memset(Pr, 0, sizeof(mi6PRIM));
   size = sizeof(mi6VERTEX) *  W * H + sizeof(INT) * (H - 1) * (W - 1) * 2 * 3;
@@ -175,6 +178,7 @@ BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
       Ind[k++] = (i + 1) * W + j + 1;
     }
    MI6_RndPrimCreate(Pr, MI6_RND_PRIM_TRIMESH, V, W * H, Ind, (H - 1) * (W - 1) * 2 * 3);
+   free(V);
    return TRUE;
 } /* End of 'MI6_RndPrimCreateSphere' function */
  /* Primitive free function.
@@ -289,8 +293,9 @@ BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName )
 
     if (nl < 0.1)
       nl = 0.1;
-    V[i].C = Vec4Set(0.9 * nl, 0 * nl, 0.9 * nl, 1);
+    V[i].C = Vec4Set(0.9 * nl, 0 * nl, 0.9 * nl, 1);          
   }
   MI6_RndPrimCreate(Pr, MI6_RND_PRIM_TRIMESH, V, nv, Ind, nf);
+  free(V);
   return TRUE;
 } /* End of 'MI6_RndPrimLoad' function */

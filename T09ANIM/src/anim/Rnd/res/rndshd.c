@@ -1,7 +1,6 @@
 #include "anim/rnd/rnd.h"
 #include <stdio.h>
 
- 
 /***
  * Base shaders functions
  ***/

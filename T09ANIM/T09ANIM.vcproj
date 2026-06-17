@@ -208,7 +208,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\u_cow.c"
+					RelativePath=".\src\units\u_cow.c"
 					>
 				</File>
 				<File
@@ -282,6 +282,10 @@
 						Name="Resources"
 						>
 						<File
+							RelativePath=".\src\anim\Rnd\res\rndmtl.c"
+							>
+						</File>
+						<File
 							RelativePath=".\src\anim\Rnd\res\rndres.c"
 							>
 						</File>
@@ -291,6 +295,10 @@
 						</File>
 						<File
 							RelativePath=".\src\anim\Rnd\res\rndshd.c"
+							>
+						</File>
+						<File
+							RelativePath=".\src\anim\Rnd\res\rndtex.c"
 							>
 						</File>
 					</Filter>

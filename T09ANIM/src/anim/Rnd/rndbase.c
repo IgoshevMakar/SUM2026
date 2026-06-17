@@ -72,6 +72,10 @@ VOID MI6_RndInit( HWND hWnd )
     MI6_hRndGLRC = hRC;
     wglMakeCurrent(MI6_hRndDC, MI6_hRndGLRC);
   }
+
+  glEnable(GL_DEPTH_TEST);
+  wglSwapIntervalEXT(0);
+
   #ifndef NDEBUG
     OutputDebugString(glGetString(GL_VERSION));
     OutputDebugString("\n");
@@ -110,6 +114,7 @@ VOID MI6_RndResize( INT W, INT H )
   /* Setup projection */
   MI6_RndFrameW = W;
   MI6_RndFrameH = H;
+
   MI6_RndProjSet();
 }
 
@@ -124,6 +129,8 @@ VOID MI6_RndStart( VOID )
   VEC4 ClearColor = {0.30, 0.47, 0.8, 1};
   FLT DepthClearValue = 1;
  
+  MI6_RndShdUpdate();
+
   /* Clear frame */
   glClearBufferfv(GL_COLOR, 0, &ClearColor.X);
   glClearBufferfv(GL_DEPTH, 0, &DepthClearValue);

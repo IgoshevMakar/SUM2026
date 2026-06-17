@@ -3,6 +3,8 @@
  * PROGRAMMER: MI6
  * DATE: 09.06.2026
  */
+#ifndef __rnd_h_
+#define __rnd_h_
 #define GLEW_STATIC
 #include <glew.h>
 #include "def.h"
@@ -92,11 +94,5 @@ VOID MI6_RndStart( VOID );
 VOID MI6_RndEnd( VOID );
 VOID MI6_RndProjSet( VOID );
 VOID MI6_RndCamSet( VEC Loc, VEC At, VEC Up );
-
-
-#ifndef __rnd_h_
-#define __rnd_h_
-
-#include "def.h"
 
 #endif /* __rnd_h_ */

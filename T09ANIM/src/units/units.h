@@ -8,7 +8,7 @@
 
 #include "anim/anim.h"
 
-/* Unit creation function.
+/* Unit creation functions.
  * ARGUMENTS:
  *   - unit structure size in bytes:
  *       INT Size;
@@ -17,6 +17,7 @@
  */
 mi6UNIT * MI6_UnitCreateBounceBall( VOID );
 mi6UNIT * MI6_UnitCreateControl( VOID );
+mi6UNIT * MI6_UnitCreateCow( VOID );
 
 #endif 
 
