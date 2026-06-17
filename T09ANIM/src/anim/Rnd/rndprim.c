@@ -155,7 +155,7 @@ BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
         V[k].N = VecSet(sin(theta) * sin(phi),
                       cos(theta),
                       sin(theta) * cos(phi));
-        nl = VecDotVec(V[i].N, L);
+        nl = VecDotVec(V[k].N, L);
         if (nl < 0.1)
           nl = 0.1;
         V[k].C = Vec4SetVec3(VecMulNum(VecSet(0.8, 0, 0.8), nl * 1.30));

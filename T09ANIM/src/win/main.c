@@ -139,6 +139,8 @@ LRESULT CALLBACK MyWindowFunc( HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam
 
   case WM_EXITSIZEMOVE:
     MI6_Anim.IsActive = TRUE;
+    ReleaseCapture();
+    SetFocus(hWnd);
     return 0;
 
   case WM_TIMER:

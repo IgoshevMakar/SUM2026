@@ -5,6 +5,7 @@
  */
 #ifndef __rnd_h_
 #define __rnd_h_
+
 #define GLEW_STATIC
 #include <glew.h>
 #include "def.h"

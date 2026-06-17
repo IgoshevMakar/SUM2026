@@ -1,5 +1,6 @@
 #include "anim/rnd/rnd.h"
 #include <stdio.h>
+#include <time.h>
 
 /***
  * Base shaders functions
@@ -143,7 +144,7 @@ static UINT MI6_RndShdLoad( CHAR *FileNamePrefix )
       /* Link program */
       glLinkProgram(prg);
       /* Errors handle */
-      glGetProgramiv(shd[i].Id, GL_LINK_STATUS, &res);
+      glGetProgramiv(prg, GL_LINK_STATUS, &res);
       if (res != 1)
       {
         glGetProgramInfoLog(shd[i].Id, sizeof(Buf), &res, Buf);
@@ -232,7 +233,7 @@ INT MI6_RndShdAdd( CHAR *ShaderFileNamePrefix )
 VOID MI6_RndShdUpdate( VOID )
 {
   INT i;
- 
+
   for (i = 0; i < MI6_RndShadersSize; i++)
   {
     MI6_RndShdFree(MI6_RndShaders[i].ProgId);
