@@ -61,6 +61,14 @@ typedef struct tagmi6PRIM
   INT ShdNo;
 
 } mi6PRIM;
+
+/* Primitive collection data type */
+typedef struct tagmi6PRIMS
+{
+  INT NumOfPrims; /* Number of primitives in array */  
+  mi6PRIM *Prims; /* Array of primitives */
+  MATR Trans;     /* Common transformation matrix */
+} mi6PRIMS;
  
 #define MI6_MAX_SHADERS 30
 #define MI6_STR_MAX 3000

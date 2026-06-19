@@ -83,10 +83,13 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   hWnd = CreateWindowA(WND_CLASS_NAME, "anim", WS_OVERLAPPEDWINDOW | WS_VISIBLE,
     100, 100, 700, 700, NULL, NULL, hInstance, NULL);
   srand(30);
-  for (i = 0; i < 5; i++)
+  /* for (i = 0; i < 5; i++)
     MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
   MI6_AnimUnitAdd(MI6_UnitCreateCow());
   MI6_AnimUnitAdd(MI6_UnitCreateLandscape());
+  MI6_AnimUnitAdd(MI6_UnitCreateControl()); */
+
+  MI6_AnimUnitAdd(MI6_UnitCreateTexture());
   MI6_AnimUnitAdd(MI6_UnitCreateControl());
   /* Message loop */
   while (TRUE)

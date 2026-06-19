@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="Z:\CGSGDISK\TGRKIT\INCLUDE;.\src"
+				AdditionalIncludeDirectories="X:\TGRKIT\INCLUDE;.\src"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -214,7 +214,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\units\u_g3dm.c"
+					>
+				</File>
+				<File
 					RelativePath=".\src\units\u_land.c"
+					>
+				</File>
+				<File
+					RelativePath=".\src\units\u_tex.c"
 					>
 				</File>
 				<File
@@ -293,6 +301,10 @@
 						</File>
 						<File
 							RelativePath=".\src\anim\Rnd\res\rndmtl.c"
+							>
+						</File>
+						<File
+							RelativePath=".\src\anim\rnd\res\rndprims.c"
 							>
 						</File>
 						<File
