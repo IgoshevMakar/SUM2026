@@ -20,5 +20,5 @@ void main( void )
 
   vec3 N = normalize(DrawNormal);
                                                  
-  OutColor = vec4(vec3(1, 0.8, 0.1) * 0.50 * dot(N, L) + vec3(1, 0, 1) * dot(N, L1), 1);
+ // OutColor = vec4(vec3(1, 0.8, 0.1) * 0.50 * dot(N, L) + vec3(1, 0, 1) * dot(N, L1), 1);
 }

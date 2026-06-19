@@ -198,9 +198,8 @@ static VOID MI6_RndShdFree( UINT ProgId )
 /***
  * Shaders stock functions
  ***/
- 
 /* Array of shaders */
-MI6SHADER MI6_RndShaders[MI6_MAX_SHADERS];
+mi6SHADER MI6_RndShaders[MI6_MAX_SHADERS];
  
 /* Shadres array store size */
 INT MI6_RndShadersSize;

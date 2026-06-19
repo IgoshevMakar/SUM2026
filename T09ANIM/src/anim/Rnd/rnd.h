@@ -40,6 +40,7 @@ typedef enum tagmi6PRIM_TYPE
   MI6_RND_PRIM_POINTS,
   MI6_RND_PRIM_LINES,
   MI6_RND_PRIM_TRIMESH,
+  MI6_RND_PRIM_TRISTRIP,
 } mi6PRIM_TYPE;
 
 typedef struct tagmi6PRIM
@@ -55,6 +56,10 @@ typedef struct tagmi6PRIM
 
   VEC MinBB, MaxBB;
   MATR Trans;
+
+  INT MtlNo;
+  INT ShdNo;
+
 } mi6PRIM;
  
 #define MI6_MAX_SHADERS 30
@@ -70,17 +75,75 @@ typedef struct tagMI6SHADER
   UINT ProgId;            /* Shader program Id */
 } MI6SHADER;
  
+/* Grid topology representation type */
+typedef struct tagmi6GRID
+{
+  INT W, H;      /* Grid size (in vertices) */
+  mi6VERTEX *V;  /* Array (2D) of vertex */
+} mi6GRID;
+ 
+/* Create grid function.
+ * ARGUMENTS:
+ *   - grid data:
+ *       MI6GRID *G;
+ *   - grid size:
+ *       INT W, H;
+ * RETURNS:
+ *   (BOOL) TRUE if success, FALSE otherwise.
+ */
+BOOL MI6_RndGridCreate( mi6GRID *G, INT W, INT H );
+ 
+/* Free grid function.
+ * ARGUMENTS:
+ *   - grid data:
+ *       MI6GRID *G;
+ * RETURNS: None.
+ */
+VOID MI6_RndGridFree( mi6GRID *G );
+ 
+/* Create primitive from grid function.
+ * ARGUMENTS:
+ *   - primitive to be create:
+ *       MI6PRIM *Pr;
+ *   - grid data:
+ *       MI6GRID *G;
+ * RETURNS: None.
+ */
+VOID MI6_RndPrimFromGrid( mi6PRIM *Pr, mi6GRID *G );
+ 
+/* Build grid normals function.
+ * ARGUMENTS:
+ *   - grid data:
+ *       MI6GRID *G;
+ * RETURNS: None.
+ */
+VOID MI6_RndGridAutoNormals( mi6GRID *G );
+ 
+/* Create sphere grid function.
+ * ARGUMENTS:
+ *   - grid data:
+ *       MI6GRID *G;
+ *   - sphere radius:
+ *       FLT R;
+ *   - grid size:
+ *       INT W, H;
+ * RETURNS:
+ *   (BOOL) TRUE if success, FALSE otherwise.
+ */
+BOOL MI6_RndGridCreateSphere( mi6GRID *G, FLT R, INT W, INT H );
+
 /* Shaders stock maximum size */
 
  
 /* Array of shaders */
-extern MI6SHADER MI6_RndShaders[MI6_MAX_SHADERS];
+extern mi6SHADER MI6_RndShaders[MI6_MAX_SHADERS];
 /* Shadres array store size */
 extern INT MI6_RndShadersSize;
 
 VOID APIENTRY glDebugOutput( UINT Source, UINT Type, UINT Id, UINT Severity,
                              INT Length, const CHAR *Message,
                              const VOID *UserParam );
+
 VOID MI6_RndPrimCreate( mi6PRIM *Pr, mi6PRIM_TYPE Type, mi6VERTEX *V, INT NoofV, INT *Ind, INT NoofI );
 VOID MI6_RndPrimFree( mi6PRIM *Pr );
 VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World );
@@ -95,5 +158,7 @@ VOID MI6_RndStart( VOID );
 VOID MI6_RndEnd( VOID );
 VOID MI6_RndProjSet( VOID );
 VOID MI6_RndCamSet( VEC Loc, VEC At, VEC Up );
+
+UINT MI6_RndMtlApply( INT MtlNo );
 
 #endif /* __rnd_h_ */

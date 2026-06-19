@@ -56,7 +56,7 @@ static VOID MI6_UnitResponse( mi6UNIT_COW *Uni, MI6ANIM *Ani )
  */
 static VOID MI6_UnitRender( mi6UNIT_COW *Uni, MI6ANIM *Ani )
 {
-  INT s = 1, i, j, k;
+  INT s = 4, i, j, k;
 
   for (i = -s; i <= s; i++)
     for (j = -s; j <= s; j++)

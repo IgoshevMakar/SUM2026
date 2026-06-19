@@ -18,6 +18,7 @@
 mi6UNIT * MI6_UnitCreateBounceBall( VOID );
 mi6UNIT * MI6_UnitCreateControl( VOID );
 mi6UNIT * MI6_UnitCreateCow( VOID );
+mi6UNIT * MI6_UnitCreateLandscape( VOID );
 
 #endif 
 

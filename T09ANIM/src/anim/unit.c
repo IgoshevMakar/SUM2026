@@ -75,6 +75,5 @@ mi6UNIT * MI6_AnimUnitCreate( INT Size )
   Uni->Close = MI6_UnitClose;
   Uni->Response = MI6_UnitResponse;
   Uni->Render = MI6_UnitRender;
- 
   return Uni;
 } /* End of 'MI6_AnimUnitCreate' function */

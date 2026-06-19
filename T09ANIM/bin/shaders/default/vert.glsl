@@ -14,7 +14,7 @@ out vec3 DrawPos;
  
 void main( void )
 {
-  gl_Position = MatrWVP * vec4(InPosition + vec3(0, 0.3 * sin(10 * Time + InPosition.x), 0), 1);
+  gl_Position = MatrWVP * vec4(InPosition + vec3(0, 0.3 * sin(10), 0), 1);
   DrawColor = InColor;
   DrawNormal = InNormal;
   DrawPos = InPosition;

@@ -86,6 +86,7 @@ INT WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   for (i = 0; i < 5; i++)
     MI6_AnimUnitAdd(MI6_UnitCreateBounceBall());
   MI6_AnimUnitAdd(MI6_UnitCreateCow());
+  MI6_AnimUnitAdd(MI6_UnitCreateLandscape());
   MI6_AnimUnitAdd(MI6_UnitCreateControl());
   /* Message loop */
   while (TRUE)

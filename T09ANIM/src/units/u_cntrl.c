@@ -59,7 +59,6 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     else
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
   }
 
   if (Ani->KeysClick[VK_ESCAPE])
@@ -74,7 +73,17 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
   Uni->CamLoc =
     PointTransform(Uni->CamLoc,
       MatrRotateY(Ani->Keys[VK_LBUTTON] * 
-        Ani->Mdx));
+        Ani->Mdx)); 
+
+  if (Ani->Keys[VK_LBUTTON])
+  {
+    VEC dir, right;
+    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotateY(Ani->Mdx * 0.005));
+    
+    dir = VecMulNum(VecNormalize(VecSubVec(Uni->CamAt, Uni->CamLoc)), -1);
+    right = VecNormalize(VecCrossVec(dir, VecSet(0, 1, 0)));
+    Uni->CamLoc = PointTransform(Uni->CamLoc, MatrRotate(right, Ani->Mdy * 0.005));
+  } 
 
   MI6_RndCamSet(Uni->CamLoc, Uni->CamAt, VecSet(0, 1, 0));
 } /* End of 'MI6_UnitResponse' function */

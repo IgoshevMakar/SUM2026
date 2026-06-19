@@ -68,6 +68,8 @@ VOID MI6_RndPrimCreate( mi6PRIM *Pr, mi6PRIM_TYPE Type, mi6VERTEX *V, INT NoofV,
 
 VOID MI6_RndPrimFree( mi6PRIM *Pr )
 {
+  if (Pr == NULL)
+    return;
   glDeleteVertexArrays(1, &Pr->VA);
   glDeleteBuffers(1, &Pr->VBuf);
   glDeleteBuffers(1, &Pr->IBuf);
@@ -96,26 +98,40 @@ VOID MI6_RndPrimTriMeshAutoNormals( mi6VERTEX *V, INT NumOfV, INT *Ind, INT NumO
   for(i = 0; i < NumOfV; i++)
     V[i].N = VecNormalize(V[i].N);
 }
+
 VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
 {
-  INT prim_type =
-    Pr->Type == MI6_RND_PRIM_LINES ? GL_LINES :
-    Pr->Type == MI6_RND_PRIM_TRIMESH ? GL_TRIANGLES :
-    GL_POINTS;
-  MATR wvp = MatrMulMatr(World, MatrMulMatr(MI6_RndMatrView, MI6_RndMatrProj));
-  UINT ProgId = MI6_RndShaders[0].ProgId;
-  INT loc;
- 
+  MATR
+    w = MatrMulMatr(Pr->Trans, World),
+    winv = MatrTranspose(MatrInverse(w)),
+    wvp = MatrMulMatr(w, MI6_RndMatrVP);
+  UINT ProgId;
+  INT loc,
+    prim_type =
+      Pr->Type == MI6_RND_PRIM_LINES ? GL_LINES :
+      Pr->Type == MI6_RND_PRIM_TRIMESH ? GL_TRIANGLES :
+      Pr->Type == MI6_RND_PRIM_TRISTRIP ? GL_TRIANGLE_STRIP :
+      GL_POINTS;
+
+  if ((ProgId = MI6_RndMtlApply(Pr->MtlNo)) == 0)
+    return;
   glUseProgram(ProgId);
+
+  /* Pass render uniforms */
   if ((loc = glGetUniformLocation(ProgId, "MatrWVP")) != -1)
     glUniformMatrix4fv(loc, 1, FALSE, wvp.A[0]);
+  if ((loc = glGetUniformLocation(ProgId, "MatrW")) != -1)
+    glUniformMatrix4fv(loc, 1, FALSE, w.A[0]);
+  if ((loc = glGetUniformLocation(ProgId, "MatrWInv")) != -1)
+    glUniformMatrix4fv(loc, 1, FALSE, winv.A[0]);
   if ((loc = glGetUniformLocation(ProgId, "Time")) != -1)
     glUniform1f(loc, MI6_Anim.Time);
- 
-  glLoadMatrixf(wvp.A[0]);
+  if ((loc = glGetUniformLocation(ProgId, "GlobalTime")) != -1)
+    glUniform1f(loc, MI6_Anim.GlobalTime);
+
   glBindVertexArray(Pr->VA);
 
-  if(Pr->IBuf == 0)
+  if (Pr->IBuf == 0)
     glDrawArrays(prim_type, 0, Pr->NumOfElements);
   else
   {
@@ -124,8 +140,9 @@ VOID MI6_RndPrimDraw( mi6PRIM *Pr, MATR World )
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   }
   glBindVertexArray(0);
-  glUseProgram(0);
-}
+  glUseProgram(0); 
+} /* End of 'MI6_RndPrimDraw' function */
+
 BOOL MI6_RndPrimCreateSphere( mi6PRIM *Pr, DBL R, INT W, INT H )
 {
 
@@ -293,7 +310,7 @@ BOOL MI6_RndPrimLoad( mi6PRIM *Pr, CHAR *FileName )
 
     if (nl < 0.1)
       nl = 0.1;
-    V[i].C = Vec4Set(0.9 * nl, 0 * nl, 0.9 * nl, 1);          
+    V[i].C = Vec4Set(0.9 * nl, 0 * nl, 0.9 * nl, 1);
   }
   MI6_RndPrimCreate(Pr, MI6_RND_PRIM_TRIMESH, V, nv, Ind, nf);
   free(V);

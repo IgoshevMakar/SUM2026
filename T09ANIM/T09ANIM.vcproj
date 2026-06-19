@@ -214,6 +214,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\src\units\u_land.c"
+					>
+				</File>
+				<File
 					RelativePath=".\src\units\units.h"
 					>
 				</File>
@@ -283,6 +287,10 @@
 					<Filter
 						Name="Resources"
 						>
+						<File
+							RelativePath=".\src\anim\Rnd\rndgrid.c"
+							>
+						</File>
 						<File
 							RelativePath=".\src\anim\Rnd\res\rndmtl.c"
 							>

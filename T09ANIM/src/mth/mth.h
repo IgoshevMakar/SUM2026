@@ -536,6 +536,18 @@ __inline VEC VecMaxVec( VEC V1, VEC V2 )
                 V1.Z > V2.Z ? V1.Z : V2.Z);
 } /* End of 'VecMinVec' function */
 
+__inline MATR MatrTranspose( MATR M )
+{
+  MATR r;
+  INT i, j;
+
+  for (i = 0; i < 4; i++)
+    for (j = 0; j < 4; j++)
+      r.A[i][j] = M.A[j][i];
+
+  return r;
+}
+
 #endif /* __mth_h_ */
  
 /* END OF 'mth.h' FILE */
