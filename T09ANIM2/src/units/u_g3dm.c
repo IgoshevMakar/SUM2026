@@ -14,7 +14,7 @@ static VOID MI6_UnitInit( mi6UNIT_G3DM *Uni, MI6ANIM *Ani)
   VEC B;
   MATR m;
 
-  MI6_RndPrimsLoad(&Uni->Model, "bin/models/caef.g3dm");
+  MI6_RndPrimsLoad(&Uni->Model, "bin/models/city_1.g3dm");
   //B = VecSubVec(Uni->Model.MaxBB, Uni->Model.MinBB);
   //m = MatrMulMatr(MatrTranslate(VecAddVec(VecNeg(Uni->Model.MinBB), VecSet(-B.X / 2, 0, -B.Z / 2))), MatrScale(VecSet1(1 / B.Y)));
   //Uni->Model.Trans = m;

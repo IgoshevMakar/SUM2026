@@ -68,7 +68,7 @@ static VOID MI6_UnitClose( mi6UNIT_CONTROL *Uni, MI6ANIM *Ani )
 
   Uni->CamLoc = 
     VecAddVec(Uni->CamLoc,
-      VecMulNum(d, Ani->GlobalDeltaTime * 100 * (Ani->Mdz)));
+      VecMulNum(d, Ani->GlobalDeltaTime * (Ani->Mdz)));
 
   Uni->CamLoc =
     PointTransform(Uni->CamLoc,

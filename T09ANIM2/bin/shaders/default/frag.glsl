@@ -16,8 +16,8 @@ uniform sampler2D Texture0;
  
 void main( void )
 {
-  vec3 L = normalize(vec3(10 * sin(8 *Time), 1, 1));
-  vec3 L1 = normalize(vec3(1, 1, 10 * sin(5 * Time)));
+  vec3 L = normalize(vec3(sin(Time), 1, 1));
+  vec3 L1 = normalize(vec3(1, 1, sin(Time)));
   vec3 N = normalize(DrawNormal);
   
   float diff = max(max(dot(N, L), 0.0), dot(N, L1));
